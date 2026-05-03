@@ -50,15 +50,16 @@ class ChatScreen extends StatelessWidget {
               style: TextStyle(color: Colors.black, fontSize: 18),
               decoration: InputDecoration(
                 hint: Text('Send Message .....'),
-                suffixIcon: Icon(Icons.send , color: kPrimaryColor,),
+                suffixIcon: Icon(Icons.send, color: kPrimaryColor),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(20),
                   borderSide: BorderSide(color: Colors.black),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide( color: Colors.black),
+                  borderRadius: BorderRadius.circular(20),
+
+                  borderSide: BorderSide(color: Colors.black),
                 ),
-                
               ),
             ),
           ),

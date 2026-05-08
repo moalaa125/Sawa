@@ -74,7 +74,10 @@ class _RegisterPageState extends State<RegisterPage> {
               child: Column(
                 children: [
                   SizedBox(height: 70),
-                  Image.asset('assets/images/scholar.png'),
+                  Hero(
+                    tag: 'logo',
+                    child: Image.asset('assets/images/scholar.png'),
+                  ),
                   Text(
                     'Schoolar Chat',
                     style: TextStyle(
@@ -151,17 +154,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     SizedBox(width: 5),
-                    Hero(
-                      tag: 'sing_register_animation',
-                      child: TextButton(
-                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Login',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
+                    TextButton(
+                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Login',
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
                   ],

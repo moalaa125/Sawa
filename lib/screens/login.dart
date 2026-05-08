@@ -1,9 +1,11 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/custom_text_filed.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
+import 'package:chat_app/custom_widgets/custom_text_button.dart';
 import 'package:chat_app/screens/chat_screen.dart';
-import 'package:chat_app/screens/register.dart';
 import 'package:chat_app/custom_widgets/show_snack_bar.dart';
+import 'package:chat_app/screens/register.dart';
+import 'package:chat_app/screens/resetPassword.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -69,7 +71,10 @@ class _loginPageState extends State<loginPage> {
               child: Column(
                 children: [
                   SizedBox(height: 70),
-                  Image.asset('assets/images/scholar.png'),
+                  Hero(
+                    tag: 'logo',
+                    child: Image.asset('assets/images/scholar.png'),
+                  ),
                   Text(
                     'Schoolar Chat',
                     style: TextStyle(
@@ -147,20 +152,23 @@ class _loginPageState extends State<loginPage> {
                       style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                     SizedBox(width: 5),
-                    Hero(
-                      tag: 'sing_register_animation',
-                      child: TextButton(
-                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                        onPressed: () {
-                          Navigator.pushNamed(context, RegisterPage.id);
-                        },
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(color: Colors.white, fontSize: 20),
-                        ),
-                      ),
+                    CustomTextButton(
+                      text: 'Sign Up',
+                      onPressed: () {
+                        Navigator.pushNamed(context, RegisterPage.id);
+                      },
                     ),
                   ],
+                ),
+                Center(
+                  child: CustomTextButton(
+                    text: 'Reset Password',
+                    onPressed: () {
+
+                      
+                      Navigator.pushNamed(context, Resetpassword.id);
+                    },
+                  ),
                 ),
               ],
             ),

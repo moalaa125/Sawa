@@ -8,17 +8,20 @@ class CustomTextFiled extends StatelessWidget {
     required this.obscureText,
     required this.validator,
     this.keyBoardType,
+    this.controller
   });
   final String hintText;
   final Function(String)? onChanged;
   final bool obscureText;
   final String? Function(String?)? validator;
-  TextInputType? keyBoardType;
+  final TextInputType? keyBoardType;
+  final TextEditingController? controller;
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 10, top: 10, right: 10, bottom: 5),
       child: TextFormField(
+        controller:controller ,
         keyboardType: keyBoardType,
         validator: validator,
         style: TextStyle(color: Colors.white, fontSize: 18),

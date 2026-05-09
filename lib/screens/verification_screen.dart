@@ -32,7 +32,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
       showSnackBar(context, 'Done!');
       Navigator.pushReplacementNamed(context, loginPage.id);
     } else {
-      showSnackBar(context, 'Email not verified yet, please check your email and click the link');
+      showSnackBar(
+        context,
+        'Email not verified yet, please check your email and click the link',
+      );
     }
   }
 

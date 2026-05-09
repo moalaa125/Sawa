@@ -164,8 +164,6 @@ class _loginPageState extends State<loginPage> {
                   child: CustomTextButton(
                     text: 'Reset Password',
                     onPressed: () {
-
-                      
                       Navigator.pushNamed(context, Resetpassword.id);
                     },
                   ),

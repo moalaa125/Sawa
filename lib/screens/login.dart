@@ -30,7 +30,7 @@ class _loginPageState extends State<loginPage> {
         });
         UserCredential userCredential = await logIn();
         if (userCredential.user!.emailVerified) {
-          Navigator.popAndPushNamed(context, ChatScreen.id);
+          Navigator.pushNamed(context, ChatScreen.id);
           showSnackBar(context, 'you loggied in sucssfully !');
         } else {
           await FirebaseAuth.instance.signOut();

@@ -76,7 +76,7 @@ class _loginPageState extends State<loginPage> {
                     child: Image.asset('assets/images/scholar.png'),
                   ),
                   Text(
-                    'Schoolar Chat',
+                    'SAWA Chat',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,

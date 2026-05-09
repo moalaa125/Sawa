@@ -79,7 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: Image.asset('assets/images/scholar.png'),
                   ),
                   Text(
-                    'Schoolar Chat',
+                    'SAWA Chat',
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 30,

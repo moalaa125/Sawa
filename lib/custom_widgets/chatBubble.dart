@@ -1,3 +1,4 @@
+import 'package:chat_app/models/message_model.dart';
 import 'package:flutter/material.dart';
 
 class Chatbubble extends StatelessWidget {
@@ -6,15 +7,17 @@ class Chatbubble extends StatelessWidget {
     required this.paddingForBubble,
     required this.bubbleColor,
     required this.borderRadiusGeometry,
-    required this.txt,
+    // required this.txt,
     required this.senderOrRecevier,
+    required this.message,
   });
 
   final EdgeInsetsGeometry? paddingForBubble;
   final Color? bubbleColor;
   final BorderRadiusGeometry? borderRadiusGeometry;
-  final String? txt;
+  // final String? txt;
   final AlignmentGeometry senderOrRecevier;
+  final MessageModel message ;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +31,7 @@ class Chatbubble extends StatelessWidget {
           borderRadius: borderRadiusGeometry,
         ),
         child: Text(
-          '$txt',
+          message.message,
           style: TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),

@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
+  cupertino_icons: ^1.0.9
   firebase_auth: ^6.4.0
   firebase_core: ^4.7.0
   email_validator: ^3.0.0
@@ -17,6 +17,7 @@ dependencies:
   pinput: ^6.0.2
   email_otp: ^3.1.0
   cloud_firestore: ^6.3.0
+  flutter_screenutil: ^5.9.3
 
 dev_dependencies:
   flutter_test:
@@ -33,3 +34,9 @@ flutter:
     - family: Pacifico
       fonts:
         - asset: assets/fonts/Pacifico-Regular.ttf
+    - family: amiri
+      fonts:
+        - asset: assets/fonts/AmiriQuran-Regular.ttf
+    - family: amara
+      fonts:
+        - asset: assets/fonts/Amarante-Regular.ttf

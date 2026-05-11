@@ -1,5 +1,5 @@
 import 'package:chat_app/constant.dart';
-import 'package:chat_app/custom_text_filed.dart';
+import 'package:chat_app/custom_widgets/custom_text_filed.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/custom_widgets/show_snack_bar.dart';
 import 'package:firebase_auth/firebase_auth.dart';

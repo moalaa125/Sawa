@@ -3,8 +3,18 @@ import 'package:chat_app/custom_widgets/chatBubble.dart';
 import 'package:chat_app/models/message_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class ChatScreen extends StatelessWidget {
+class ChatScreen extends StatefulWidget {
+  static String id = 'chatScreen';
+
+  const ChatScreen({super.key});
+
+  @override
+  State<ChatScreen> createState() => _ChatScreenState();
+}
+
+class _ChatScreenState extends State<ChatScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   final ScrollController _controller = ScrollController();
@@ -16,7 +26,13 @@ class ChatScreen extends StatelessWidget {
 
   TextEditingController controller = TextEditingController();
 
-  static String id = 'chatScreen';
+  @override
+  void dispose() {
+    _controller.dispose();
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     String email = ModalRoute.of(context)!.settings.arguments as String;
@@ -52,7 +68,7 @@ class ChatScreen extends StatelessWidget {
                       return message[index].id == email
                           ? Chatbubble(
                               message: message[index],
-                      
+
                               senderOrRecevier: Alignment.centerRight,
                               paddingForBubble: EdgeInsets.only(
                                 left: 20,
@@ -74,7 +90,7 @@ class ChatScreen extends StatelessWidget {
                                 bottom: 16,
                                 right: 20,
                               ),
-                              bubbleColor: Colors.red,
+                              bubbleColor: kSecoundColor,
                               borderRadiusGeometry: BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
@@ -123,8 +139,26 @@ class ChatScreen extends StatelessWidget {
               ],
             ),
           );
+        } else if (snapshot.hasError) {
+          return Scaffold(
+            backgroundColor: kPrimaryColor,
+            body: Center(
+              child: Text(
+                'There is an error try again later !',
+                style: TextStyle(color: Colors.white, fontSize: 18),
+              ),
+            ),
+          );
         } else {
-          return Text('Loading ....');
+          return Scaffold(
+            backgroundColor: kPrimaryColor,
+            body: Center(
+              child: SpinKitWave(
+                color: Colors.white,
+                size: 50.0,
+              ),
+            ),
+          );
         }
       },
     );

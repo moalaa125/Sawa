@@ -7,6 +7,6 @@ class MessageModel {
   MessageModel(this.message, this.id);
 
   factory MessageModel.fromJson(jsonData) {
-    return MessageModel(jsonData[kMessagesCollection], jsonData['id']);
+    return MessageModel(jsonData[kMessageField], jsonData['id']); // ✅ fix: بدل kMessagesCollection استخدمنا kMessageField المنفصل
   }
 }

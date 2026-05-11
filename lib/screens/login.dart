@@ -1,5 +1,5 @@
 import 'package:chat_app/constant.dart';
-import 'package:chat_app/custom_text_filed.dart';
+import 'package:chat_app/custom_widgets/custom_text_filed.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/custom_widgets/custom_text_button.dart';
 import 'package:chat_app/screens/chat_screen.dart';
@@ -7,9 +7,11 @@ import 'package:chat_app/custom_widgets/show_snack_bar.dart';
 import 'package:chat_app/screens/register.dart';
 import 'package:chat_app/screens/resetPassword.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class loginPage extends StatefulWidget {
   const loginPage({super.key});
@@ -30,7 +32,7 @@ class _loginPageState extends State<loginPage> {
         });
         UserCredential userCredential = await logIn();
         if (userCredential.user!.emailVerified) {
-          Navigator.pushNamed(context, ChatScreen.id , arguments: email);
+          Navigator.pushNamed(context, ChatScreen.id, arguments: email);
           showSnackBar(context, 'you loggied in sucssfully !');
         } else {
           await FirebaseAuth.instance.signOut();
@@ -70,34 +72,44 @@ class _loginPageState extends State<loginPage> {
             Center(
               child: Column(
                 children: [
-                  SizedBox(height: 70),
-                  Hero(
-                    tag: 'logo',
-                    child: Image.asset('assets/images/scholar.png'),
-                  ),
-                  Text(
-                    'SAWA Chat',
-                    style: TextStyle(
+                  SizedBox(height: 50.h),
+                  Container(
+                    height: 65.h,
+                    width: 70.w,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.r),
+                      color: kSecoundColor,
+                    ),
+                    child: Icon(
+                      CupertinoIcons.chat_bubble,
                       color: Colors.white,
-                      fontSize: 30,
-                      fontFamily: 'Pacifico',
+                      size: 35.sp,
                     ),
                   ),
-                  SizedBox(height: 100),
+                  SizedBox(height: 15.h),
+                  Hero(
+                    tag: 'nameAnimation',
+                    child: Text(
+                      'SAWA Chat',
+                      style: TextStyle(
+                        color: kSecoundColor,
+                        fontSize: 30.sp,
+                        fontFamily: 'Pacifico',
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 70 .h),
                 ],
               ),
             ),
 
             Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    'Sign in',
-                    style: TextStyle(color: Colors.white, fontSize: 25),
-                  ),
+                Text(
+                  'Welcome back',
+                  style: TextStyle(color: Colors.black, fontSize: 20.sp),
                 ),
+                SizedBox(height: 30.h),
                 CustomTextFiled(
                   keyBoardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -108,13 +120,13 @@ class _loginPageState extends State<loginPage> {
                     }
                     return null;
                   },
-                  hintText: 'Email',
+                  hintText: 'Email address',
                   onChanged: (data) {
                     email = data;
                   },
                   obscureText: false,
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 2.h),
                 CustomTextFiled(
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -128,45 +140,47 @@ class _loginPageState extends State<loginPage> {
                   },
                   obscureText: true,
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 5.h),
                 Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: EdgeInsets.all(8.0.r),
                   child: isLoading
-                      ? const SpinKitDancingSquare(
-                          color: Colors.white,
-                          size: 50.0,
+                      ? SpinKitDancingSquare(
+                          color: Colors.black,
+                          size: 50.0.sp,
                         )
                       : CustomButton(
                           ontap: () {
                             signIn();
                           },
-                          text: 'Login  ',
+                          text: 'LOGIN',
                         ),
                 ),
-                SizedBox(height: 15),
-                Row(
+                SizedBox(height: 20.h),
+                Center(
+                  child: CustomTextButton(
+                    fontWeight: FontWeight.normal,
+                    text: 'Forget Password',
+                    onPressed: () {
+                      Navigator.pushNamed(context, Resetpassword.id);
+                    },
+                  ),
+                ),
+                  Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       'Dont have an account?',
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      style: TextStyle(color: Colors.black, fontSize: 18.sp),
                     ),
-                    SizedBox(width: 5),
+                    SizedBox(width: 5.w),
                     CustomTextButton(
+                      fontWeight: FontWeight.w500,
                       text: 'Sign Up',
                       onPressed: () {
                         Navigator.pushNamed(context, RegisterPage.id);
                       },
                     ),
                   ],
-                ),
-                Center(
-                  child: CustomTextButton(
-                    text: 'Reset Password',
-                    onPressed: () {
-                      Navigator.pushNamed(context, Resetpassword.id);
-                    },
-                  ),
                 ),
               ],
             ),

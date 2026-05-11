@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 
-const kPrimaryColor =  const Color.fromARGB(255, 6, 53, 92) ; 
-const kSecoundColor =  Color.fromARGB(255, 7, 94, 166) ; 
+const kPrimaryColor =  Colors.white ; 
+const kSecoundColor =  Color(0xFF06355C) ; 
 const kMessagesCollection = 'messages';
+const kMessageField = 'messages';  
 const kCreatedAt = 'createdAt';

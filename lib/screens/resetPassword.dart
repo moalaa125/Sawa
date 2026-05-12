@@ -97,7 +97,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                     ),
                     Text(
                       'Forget Password?',
-                      style: TextStyle(fontSize: 35, fontFamily: 'amara'),
+                      style: TextStyle(fontSize: 35.sp, fontFamily: 'amara'),
                     ),
                     Text(
                       'Enter your email to receive a\n password reset link',
@@ -125,7 +125,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                       child: isLoading
                           ? SpinKitDancingSquare(
                               color: Colors.white,
-                              size: 50.0,
+                              size: 50.0.sp,
                             )
                           : CustomButton(
                               text: 'send',
@@ -142,7 +142,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                           color: kSecoundColor,
                           size: 18.sp,
                         ),
-                        SizedBox(width: 5),
+                        SizedBox(width: 5.w),
                         CustomTextButton(
                           onPressed: () {
                             Navigator.pop(context);

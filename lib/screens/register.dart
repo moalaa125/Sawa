@@ -221,7 +221,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       'Already have an account ?',
                       style: TextStyle(color: Colors.black, fontSize: 18),
                     ),
-                    // SizedBox(width: 1),
                     TextButton(
                       style: TextButton.styleFrom(padding: EdgeInsets.zero),
                       onPressed: () {

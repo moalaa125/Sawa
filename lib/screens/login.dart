@@ -98,7 +98,7 @@ class _loginPageState extends State<loginPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 70 .h),
+                  SizedBox(height: 70.h),
                 ],
               ),
             ),
@@ -144,10 +144,7 @@ class _loginPageState extends State<loginPage> {
                 Padding(
                   padding: EdgeInsets.all(8.0.r),
                   child: isLoading
-                      ? SpinKitDancingSquare(
-                          color: Colors.black,
-                          size: 50.0.sp,
-                        )
+                      ? SpinKitDancingSquare(color: Colors.black, size: 50.0.sp)
                       : CustomButton(
                           ontap: () {
                             signIn();
@@ -158,6 +155,7 @@ class _loginPageState extends State<loginPage> {
                 SizedBox(height: 20.h),
                 Center(
                   child: CustomTextButton(
+                    textStyle: TextStyle(color: Colors.black, fontSize: 18.sp),
                     fontWeight: FontWeight.normal,
                     text: 'Forget Password',
                     onPressed: () {
@@ -165,7 +163,7 @@ class _loginPageState extends State<loginPage> {
                     },
                   ),
                 ),
-                  Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
@@ -174,6 +172,10 @@ class _loginPageState extends State<loginPage> {
                     ),
                     SizedBox(width: 5.w),
                     CustomTextButton(
+                      textStyle: TextStyle(
+                        color: Colors.black,
+                        fontSize: 18.sp,
+                      ),
                       fontWeight: FontWeight.w500,
                       text: 'Sign Up',
                       onPressed: () {

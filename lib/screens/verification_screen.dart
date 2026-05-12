@@ -86,43 +86,43 @@ class _VerificationScreenState extends State<VerificationScreen> {
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          
+
             children: [
               Column(
                 children: [
                   Container(
                     height: 110.h,
                     width: 110.w,
-          
+
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: const Color(0xFFF4F3F7),
                     ),
-          
+
                     child: Icon(
                       CupertinoIcons.mail,
                       color: kSecoundColor,
                       size: 40.sp,
                     ),
                   ),
-          
+
                   SizedBox(height: 35.h),
-          
+
                   Text(
                     'Check your inbox\n',
                     textAlign: TextAlign.center,
-          
+
                     style: TextStyle(
                       color: Colors.black,
                       fontSize: 34.sp,
                       fontFamily: 'amara',
                     ),
                   ),
-          
+
                   Text(
                     'We sent a verification link to your email.\n Please click the link to confirm\n your account and continue\n to SAWA Chat.',
                     textAlign: TextAlign.center,
-          
+
                     style: TextStyle(
                       color: Colors.black54,
                       fontSize: 16.sp,
@@ -131,13 +131,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
                   ),
                 ],
               ),
-          
+
               Column(
                 children: [
                   isLoading
                       ? SizedBox(
                           height: 56.h,
-          
+
                           child: Center(
                             child: SpinKitDancingSquare(
                               color: Colors.black,
@@ -149,25 +149,23 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           ontap: () {
                             isTheUserVerified();
                           },
-          
+
                           text: 'I,ve verified,continue',
                         ),
-          
+
                   SizedBox(height: 5.h),
-          
+
                   CustomTextButton(
                     onPressed: () {
                       resendLink();
                     },
-          
+
                     text: 'RESEND LINK',
-          
+
                     textStyle: TextStyle(color: kSecoundColor, fontSize: 16.sp),
                   ),
-          
+
                   SizedBox(height: 30.h),
-          
-              
                 ],
               ),
             ],

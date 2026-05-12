@@ -4,6 +4,7 @@ import 'package:chat_app/models/message_model.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ChatScreen extends StatefulWidget {
   static String id = 'chatScreen';
@@ -23,6 +24,25 @@ class _ChatScreenState extends State<ChatScreen> {
   CollectionReference messages = FirebaseFirestore.instance.collection(
     kMessagesCollection,
   );
+  void sendMessage(String email) {
+    if (controller.text.trim().isEmpty) {
+      return;
+    }
+
+    messages.add({
+      'messages': controller.text,
+      kCreatedAt: DateTime.now(),
+      'id': email,
+    });
+
+    controller.clear();
+
+    _controller.animateTo(
+      0,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeInOut,
+    );
+  }
 
   TextEditingController controller = TextEditingController();
 
@@ -47,14 +67,22 @@ class _ChatScreenState extends State<ChatScreen> {
           }
           return Scaffold(
             appBar: AppBar(
-              title: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset('assets/images/scholar.png', scale: 2.5),
-                  Text('chat', style: TextStyle(color: Colors.white)),
-                ],
+              backgroundColor: Colors.white,
+              shadowColor: Colors.black,
+              elevation: 1,
+              surfaceTintColor: Colors.transparent,
+              centerTitle: true,
+              title: Hero(
+                tag: 'nameAnimation',
+                child: Text(
+                  'SAWA Chat',
+                  style: TextStyle(
+                    color: kSecoundColor,
+                    fontSize: 25.sp,
+                    fontFamily: 'Pacifico',
+                  ),
+                ),
               ),
-              backgroundColor: kPrimaryColor,
             ),
             body: Column(
               children: [
@@ -67,6 +95,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     itemBuilder: (context, index) {
                       return message[index].id == email
                           ? Chatbubble(
+                              txtColor: Colors.white,
                               message: message[index],
 
                               senderOrRecevier: Alignment.centerRight,
@@ -76,7 +105,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 bottom: 16,
                                 right: 20,
                               ),
-                              bubbleColor: kPrimaryColor,
+                              bubbleColor: Color(0XFF06355C),
                               borderRadiusGeometry: BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
@@ -84,13 +113,14 @@ class _ChatScreenState extends State<ChatScreen> {
                               ),
                             )
                           : Chatbubble(
+                              txtColor: Colors.black,
                               paddingForBubble: EdgeInsets.only(
                                 left: 20,
                                 top: 16,
                                 bottom: 16,
                                 right: 20,
                               ),
-                              bubbleColor: kSecoundColor,
+                              bubbleColor: Color(0XFFF0F0F0),
                               borderRadiusGeometry: BorderRadius.only(
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
@@ -102,40 +132,74 @@ class _ChatScreenState extends State<ChatScreen> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: TextField(
-                    controller: controller,
-                    onSubmitted: (data) {
-                      messages.add({
-                        'messages': data,
+              Padding(
+  padding: EdgeInsets.all(20.r),
 
-                        kCreatedAt: DateTime.now(),
-                        'id': email,
-                      });
-                      controller.clear();
-                      _controller.animateTo(
-                        0,
-                        duration: Duration(seconds: 2),
-                        curve: Curves.fastOutSlowIn,
-                      );
-                    },
-                    style: TextStyle(color: Colors.black, fontSize: 18),
-                    decoration: InputDecoration(
-                      hint: Text('Send Message .....'),
-                      suffixIcon: Icon(Icons.send, color: kPrimaryColor),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(20),
+  child: Row(
+    children: [
+      Expanded(
+        child: Container(
+          decoration: BoxDecoration(
+            color: const Color(0XFFF0F0F0),
+            borderRadius: BorderRadius.circular(30.r),
+          ),
 
-                        borderSide: BorderSide(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ),
+          child: TextField(
+            controller: controller,
+
+            onSubmitted: (_) {
+              sendMessage(email);
+            },
+
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 16.sp,
+            ),
+
+            decoration: InputDecoration(
+              hintText: 'Type a message...',
+              hintStyle: TextStyle(
+                color: Colors.grey,
+                fontSize: 14.sp,
+              ),
+
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 20.w,
+                vertical: 18.h,
+              ),
+
+              border: InputBorder.none,
+            ),
+          ),
+        ),
+      ),
+
+      SizedBox(width: 12.w),
+
+      GestureDetector(
+        onTap: () {
+          sendMessage(email);
+        },
+
+        child: Container(
+          height: 58.h,
+          width: 58.w,
+
+          decoration: BoxDecoration(
+            color: const Color(0XFF06355C),
+            shape: BoxShape.circle,
+          ),
+
+          child: Icon(
+            Icons.arrow_forward,
+            color: Colors.white,
+            size: 24.sp,
+          ),
+        ),
+      ),
+    ],
+  ),
+)
               ],
             ),
           );
@@ -152,12 +216,7 @@ class _ChatScreenState extends State<ChatScreen> {
         } else {
           return Scaffold(
             backgroundColor: kPrimaryColor,
-            body: Center(
-              child: SpinKitWave(
-                color: Colors.white,
-                size: 50.0,
-              ),
-            ),
+            body: Center(child: SpinKitWave(color: Colors.white, size: 50.0)),
           );
         }
       },

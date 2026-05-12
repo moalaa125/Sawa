@@ -10,6 +10,7 @@ class Chatbubble extends StatelessWidget {
     // required this.txt,
     required this.senderOrRecevier,
     required this.message,
+    required this.txtColor,
   });
 
   final EdgeInsetsGeometry? paddingForBubble;
@@ -18,6 +19,7 @@ class Chatbubble extends StatelessWidget {
   // final String? txt;
   final AlignmentGeometry senderOrRecevier;
   final MessageModel message ;
+  final Color? txtColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class Chatbubble extends StatelessWidget {
         ),
         child: Text(
           message.message,
-          style: TextStyle(color: Colors.white, fontSize: 18),
+          style: TextStyle(color: txtColor, fontSize: 18),
         ),
       ),
     );

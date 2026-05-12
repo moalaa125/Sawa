@@ -15,6 +15,7 @@ class CustomButton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: kSecoundColor,
+          borderRadius: BorderRadius.circular(14.r), // ✅ fix: كان مفيش borderRadius خالص
         ),
         width: 335.w,
         height: 50.h,
@@ -22,8 +23,8 @@ class CustomButton extends StatelessWidget {
           child: Text(
             '$text',
             style: TextStyle(
-              fontSize: 20.sp, 
-              fontWeight: FontWeight.bold, 
+              fontSize: 20.sp,
+              fontWeight: FontWeight.bold,
               color: Colors.white,
             ),
           ),

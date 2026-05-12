@@ -87,119 +87,141 @@ class _ChatScreenState extends State<ChatScreen> {
             body: Column(
               children: [
                 Expanded(
-                  child: ListView.builder(
-                    reverse: true,
-                    controller: _controller,
+                  child: message.isEmpty
+                      // ✅ إضافة: empty state لما مفيش رسايل
+                      ? Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.chat_bubble_outline,
+                                size: 60.sp,
+                                color: Colors.grey.shade300,
+                              ),
+                              SizedBox(height: 16.h),
+                              Text(
+                                'No messages yet, say hello! 👋',
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 16.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : ListView.builder(
+                          reverse: true,
+                          controller: _controller,
 
-                    itemCount: message.length,
-                    itemBuilder: (context, index) {
-                      return message[index].id == email
-                          ? Chatbubble(
-                              txtColor: Colors.white,
-                              message: message[index],
+                          itemCount: message.length,
+                          itemBuilder: (context, index) {
+                            return message[index].id == email
+                                ? Chatbubble(
+                                    txtColor: Colors.white,
+                                    message: message[index],
 
-                              senderOrRecevier: Alignment.centerRight,
-                              paddingForBubble: EdgeInsets.only(
-                                left: 20,
-                                top: 16,
-                                bottom: 16,
-                                right: 20,
+                                    senderOrRecevier: Alignment.centerRight,
+                                    paddingForBubble: EdgeInsets.only(
+                                      left: 20,
+                                      top: 16,
+                                      bottom: 16,
+                                      right: 20,
+                                    ),
+                                    bubbleColor: Color(0XFF06355C),
+                                    borderRadiusGeometry: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                      bottomLeft: Radius.circular(20),
+                                    ),
+                                  )
+                                : Chatbubble(
+                                    txtColor: Colors.black,
+                                    paddingForBubble: EdgeInsets.only(
+                                      left: 20,
+                                      top: 16,
+                                      bottom: 16,
+                                      right: 20,
+                                    ),
+                                    bubbleColor: Color(0XFFF0F0F0),
+                                    borderRadiusGeometry: BorderRadius.only(
+                                      topLeft: Radius.circular(20),
+                                      topRight: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                    ),
+                                    senderOrRecevier: Alignment.centerLeft,
+                                    message: message[index],
+                                  );
+                          },
+                        ),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(20.r),
+
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: const Color(0XFFF0F0F0),
+                            borderRadius: BorderRadius.circular(30.r),
+                          ),
+
+                          child: TextField(
+                            controller: controller,
+
+                            onSubmitted: (_) {
+                              sendMessage(email);
+                            },
+
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.sp,
+                            ),
+
+                            decoration: InputDecoration(
+                              hintText: 'Type a message...',
+                              hintStyle: TextStyle(
+                                color: Colors.grey,
+                                fontSize: 14.sp,
                               ),
-                              bubbleColor: Color(0XFF06355C),
-                              borderRadiusGeometry: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20),
+
+                              contentPadding: EdgeInsets.symmetric(
+                                horizontal: 20.w,
+                                vertical: 18.h,
                               ),
-                            )
-                          : Chatbubble(
-                              txtColor: Colors.black,
-                              paddingForBubble: EdgeInsets.only(
-                                left: 20,
-                                top: 16,
-                                bottom: 16,
-                                right: 20,
-                              ),
-                              bubbleColor: Color(0XFFF0F0F0),
-                              borderRadiusGeometry: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                              ),
-                              senderOrRecevier: Alignment.centerLeft,
-                              message: message[index],
-                            );
-                    },
+
+                              border: InputBorder.none,
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(width: 12.w),
+
+                      GestureDetector(
+                        onTap: () {
+                          sendMessage(email);
+                        },
+
+                        child: Container(
+                          height: 58.h,
+                          width: 58.w,
+
+                          decoration: BoxDecoration(
+                            color: const Color(0XFF06355C),
+                            shape: BoxShape.circle,
+                          ),
+
+                          child: Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 24.sp,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              Padding(
-  padding: EdgeInsets.all(20.r),
-
-  child: Row(
-    children: [
-      Expanded(
-        child: Container(
-          decoration: BoxDecoration(
-            color: const Color(0XFFF0F0F0),
-            borderRadius: BorderRadius.circular(30.r),
-          ),
-
-          child: TextField(
-            controller: controller,
-
-            onSubmitted: (_) {
-              sendMessage(email);
-            },
-
-            style: TextStyle(
-              color: Colors.black,
-              fontSize: 16.sp,
-            ),
-
-            decoration: InputDecoration(
-              hintText: 'Type a message...',
-              hintStyle: TextStyle(
-                color: Colors.grey,
-                fontSize: 14.sp,
-              ),
-
-              contentPadding: EdgeInsets.symmetric(
-                horizontal: 20.w,
-                vertical: 18.h,
-              ),
-
-              border: InputBorder.none,
-            ),
-          ),
-        ),
-      ),
-
-      SizedBox(width: 12.w),
-
-      GestureDetector(
-        onTap: () {
-          sendMessage(email);
-        },
-
-        child: Container(
-          height: 58.h,
-          width: 58.w,
-
-          decoration: BoxDecoration(
-            color: const Color(0XFF06355C),
-            shape: BoxShape.circle,
-          ),
-
-          child: Icon(
-            Icons.arrow_forward,
-            color: Colors.white,
-            size: 24.sp,
-          ),
-        ),
-      ),
-    ],
-  ),
-)
               ],
             ),
           );
@@ -209,14 +231,22 @@ class _ChatScreenState extends State<ChatScreen> {
             body: Center(
               child: Text(
                 'There is an error try again later !',
-                style: TextStyle(color: Colors.white, fontSize: 18),
+                style: TextStyle(
+                  color: kSecoundColor, // ✅ fix: كان Colors.white على خلفية بيضاء — مش هيتشاف
+                  fontSize: 18.sp,
+                ),
               ),
             ),
           );
         } else {
           return Scaffold(
             backgroundColor: kPrimaryColor,
-            body: Center(child: SpinKitWave(color: Colors.white, size: 50.0)),
+            body: Center(
+              child: SpinKitWave(
+                color: kSecoundColor, // ✅ fix: كان Colors.white على خلفية بيضاء — مش هيتشاف
+                size: 50.0,
+              ),
+            ),
           );
         }
       },

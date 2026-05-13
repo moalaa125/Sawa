@@ -1,7 +1,7 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/screens/verification_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart'; // ✅ إضافة: استيراد الفايرستور
+import 'package:cloud_firestore/cloud_firestore.dart';   
 import 'package:flutter/material.dart';
 import 'package:chat_app/custom_widgets/custom_text_filed.dart';
 import 'package:firebase_auth/firebase_auth.dart';

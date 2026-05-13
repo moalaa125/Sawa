@@ -2,10 +2,10 @@ import 'package:chat_app/constant.dart';
 import 'package:chat_app/custom_widgets/custom_text_filed.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/custom_widgets/custom_text_button.dart';
-import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/custom_widgets/show_snack_bar.dart';
 import 'package:chat_app/screens/register.dart';
 import 'package:chat_app/screens/resetPassword.dart';
+import 'package:chat_app/screens/users.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -24,30 +24,30 @@ class loginPage extends StatefulWidget {
 
 class _loginPageState extends State<loginPage> {
   bool isLoading = false;
-  void signIn() async {
-    if (formkey.currentState!.validate()) {
-      try {
-        setState(() {
-          isLoading = true;
-        });
-        UserCredential userCredential = await logIn();
-        if (userCredential.user!.emailVerified) {
-          Navigator.pushNamed(context, ChatScreen.id, arguments: email);
-        } else {
-          await FirebaseAuth.instance.signOut();
-          showSnackBar(context, 'the account does not verified!');
+    void signIn() async {
+      if (formkey.currentState!.validate()) {
+        try {
+          setState(() {
+            isLoading = true;
+          });
+          UserCredential userCredential = await logIn();
+          if (userCredential.user!.emailVerified) {
+            Navigator.pushNamed(context, UsersScreen.id);
+          } else {
+            await FirebaseAuth.instance.signOut();
+            showSnackBar(context, 'the account does not verified!');
+          }
+        } on FirebaseAuthException catch (e) {
+          showSnackBar(
+            context,
+            e.message ?? 'there is an error please try again later!',
+          );
         }
-      } on FirebaseAuthException catch (e) {
-        showSnackBar(
-          context,
-          e.message ?? 'there is an error please try again later!',
-        );
+        setState(() {
+          isLoading = false;
+        });
       }
-      setState(() {
-        isLoading = false;
-      });
     }
-  }
 
   Future<UserCredential> logIn() async {
     UserCredential userCredential = await FirebaseAuth.instance

@@ -2,6 +2,7 @@ import 'package:chat_app/screens/chat_screen.dart';
 import 'package:chat_app/screens/login.dart';
 import 'package:chat_app/screens/register.dart';
 import 'package:chat_app/screens/resetPassword.dart';
+import 'package:chat_app/screens/users.dart';
 import 'package:chat_app/screens/verification_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -33,6 +34,7 @@ class MyApp extends StatelessWidget {
             'verificationPage': (context) => VerificationScreen(),
             'chatScreen': (context) => ChatScreen(),
             'resetPassword': (context) => Resetpassword(),
+            'usersScreen' : (context) => UsersScreen(),
           },
           title: 'Flutter Demo',
           theme: ThemeData(

@@ -1,14 +1,14 @@
-# 💬 Sawa
+# 💬 Sawa Chat
 
-**Sawa** is a real-time chat application built with **Flutter** and **Firebase**, featuring full authentication flow with email verification.
+**Sawa** is a real-time chat application built with **Flutter** and **Firebase**, featuring a full authentication flow with email verification and a clean, premium UI.
 
 ---
 
 ## 📱 Screenshots
 
-| Login | Register | Chat | Reset Password |
-|-------|----------|------|----------------|
-| <img src="screenshots/login.png" width="200"/> | <img src="screenshots/register.png" width="200"/> | <img src="screenshots/chat.png" width="200"/> | <img src="screenshots/reset.png" width="200"/> |
+| Login | Register | Chat | Verification | Reset Password |
+|-------|----------|------|--------------|----------------|
+| ![Login](screenshots/login.png) | ![Register](screenshots/register.png) | ![Chat](screenshots/chat.png) | ![Verification](screenshots/verification.png) | ![Reset Password](screenshots/reset_password.png) |
 
 ---
 
@@ -17,10 +17,12 @@
 - 🔐 **Email & Password Authentication** (Firebase Auth)
 - ✅ **Email Verification** before accessing the chat
 - 🔑 **Reset Password** via email link
-- 💬 **Real-time Chat UI** with chat bubbles
+- 💬 **Real-time Chat** with Firestore
 - ⚡ **Loading indicators** with SpinKit animations
+- 📱 **Responsive UI** with flutter_screenutil
 - 🎨 **Custom reusable widgets** (Button, TextField, SnackBar)
-- 🦸 **Hero animation** on the logo between screens
+- 🦸 **Hero animation** on the app name between screens
+- 🗨️ **Chat bubbles** — sender (navy) / receiver (light gray)
 
 ---
 
@@ -30,8 +32,9 @@
 |---|---|
 | Flutter | UI Framework |
 | Firebase Auth | Authentication |
-| Firebase Firestore | Real-time Database _(coming soon)_ |
+| Cloud Firestore | Real-time Database |
 | flutter_spinkit | Loading animations |
+| flutter_screenutil | Responsive sizing |
 | email_validator | Email format validation |
 
 ---
@@ -40,20 +43,23 @@
 
 ```
 lib/
-├── main.dart                  # App entry point & routes
-├── constant.dart              # Colors & constants
-├── custom_text_filed.dart     # Reusable text field
+├── main.dart                    # App entry point & routes
+├── constant.dart                # Colors & Firestore constants
+├── firebase_options.dart        # Firebase config (auto-generated)
+├── models/
+│   └── message_model.dart       # Message data model
 ├── custom_widgets/
-│   ├── chatBubble.dart        # Chat bubble widget
-│   ├── custom_button.dart     # Reusable button
-│   ├── custom_text_button.dart
-│   └── show_snack_bar.dart    # Global snackbar helper
+│   ├── chatBubble.dart          # Chat bubble widget
+│   ├── custom_button.dart       # Reusable primary button
+│   ├── custom_text_button.dart  # Reusable text button
+│   ├── custom_text_filed.dart   # Reusable text field
+│   └── show_snack_bar.dart      # Global snackbar helper
 └── screens/
-    ├── login.dart             # Login screen
-    ├── register.dart          # Register screen
-    ├── chat_screen.dart       # Main chat screen
-    ├── verification_screen.dart
-    └── resetPassword.dart
+    ├── login.dart               # Login screen
+    ├── register.dart            # Register screen
+    ├── chat_screen.dart         # Main chat screen
+    ├── verification_screen.dart # Email verification screen
+    └── resetPassword.dart       # Reset password screen
 ```
 
 ---
@@ -82,6 +88,7 @@ lib/
 3. **Setup Firebase**
    - Create a project on [Firebase Console](https://console.firebase.google.com/)
    - Enable **Email/Password** Authentication
+   - Enable **Cloud Firestore**
    - Run FlutterFire CLI:
      ```bash
      flutterfire configure
@@ -102,6 +109,7 @@ dependencies:
   firebase_auth: latest
   cloud_firestore: latest
   flutter_spinkit: latest
+  flutter_screenutil: latest
   email_validator: latest
 ```
 
@@ -109,7 +117,7 @@ dependencies:
 
 ## 🔒 Security Note
 
-> ⚠️ Never commit your `firebase_options.dart` or any file containing API keys to a public repository.
+> ⚠️ Never commit your `firebase_options.dart` to a public repository.
 > Add it to `.gitignore`:
 > ```
 > lib/firebase_options.dart
@@ -117,13 +125,13 @@ dependencies:
 
 ---
 
-## 🐛 Known Issues / TODO
+## 🐛 TODO
 
-- [ ] Connect chat screen to Firestore for real-time messages
-- [ ] Add `itemCount` to `ListView.builder` in chat screen
-- [ ] Add message send functionality
+- [ ] Add message timestamps inside chat bubbles
+- [ ] Add typing indicator
 - [ ] Add user profile & avatar
-- [ ] Add message timestamps
+- [ ] Add image sharing in chat
+- [ ] Private chat rooms between users
 
 ---
 

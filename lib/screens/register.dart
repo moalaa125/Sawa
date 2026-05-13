@@ -1,6 +1,7 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/screens/verification_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // ✅ إضافة: استيراد الفايرستور
 import 'package:flutter/material.dart';
 import 'package:chat_app/custom_widgets/custom_text_filed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,9 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final user = FirebaseAuth.instance.currentUser;
 
   String? email;
-
   String? password;
-
   bool isLoading = false;
 
   void registration() async {
@@ -34,8 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
           isLoading = true;
         });
 
-        await registeration();
-        isLoading = true;
+        await registerationLogic(); 
 
         Navigator.pushNamed(context, VerificationScreen.id);
 
@@ -55,9 +53,17 @@ class _RegisterPageState extends State<RegisterPage> {
     }
   }
 
-  Future<void> registeration() async {
+  Future<void> registerationLogic() async {
     UserCredential userCredential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email!, password: password!);
+
+    await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
+      'email': email,
+      'userName': email!.split('@')[0], 
+      'uid': userCredential.user!.uid,
+      'createdAt': DateTime.now(),
+    });
+
     await userCredential.user!.sendEmailVerification();
   }
 
@@ -97,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   SizedBox(
                     width: double.infinity,
                     child: Padding(
-                      padding: const EdgeInsets.only (left: 15 ),
+                      padding: const EdgeInsets.only(left: 15),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -116,12 +122,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-
                   SizedBox(height: 50.h),
                 ],
               ),
             ),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -133,7 +137,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),
-
                 CustomTextFiled(
                   keyBoardType: TextInputType.emailAddress,
                   validator: (value) {
@@ -158,7 +161,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),
-
                 CustomTextFiled(
                   onChanged: (data) {
                     password = data;
@@ -174,7 +176,6 @@ class _RegisterPageState extends State<RegisterPage> {
                     return null;
                   },
                   hintText: 'Password',
-
                   obscureText: true,
                 ),
                 SizedBox(height: 15.h),

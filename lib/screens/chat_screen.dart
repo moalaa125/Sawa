@@ -17,20 +17,17 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   final ScrollController _controller = ScrollController();
+  TextEditingController controller = TextEditingController();
 
-  // CollectionReference users = FirebaseFirestore.instance.collection('users');
-  CollectionReference messages = FirebaseFirestore.instance.collection(
-    kMessagesCollection,
-  );
-  void sendMessage(String email) {
+  
+  void sendMessage(String email, CollectionReference messagesRef) {
     if (controller.text.trim().isEmpty) {
       return;
     }
 
-    messages.add({
-      'messages': controller.text,
+    messagesRef.add({
+      kMessageField: controller.text,
       kCreatedAt: DateTime.now(),
       'id': email,
     });
@@ -44,8 +41,6 @@ class _ChatScreenState extends State<ChatScreen> {
     );
   }
 
-  TextEditingController controller = TextEditingController();
-
   @override
   void dispose() {
     _controller.dispose();
@@ -55,15 +50,24 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String email = ModalRoute.of(context)!.settings.arguments as String;
+    final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    String email = arguments['email'];
+    String roomId = arguments['roomId'];
+    String otherUserName = arguments['otherUserName'] ?? 'Chat';
+
+    CollectionReference messages = firestore
+        .collection('chats')
+        .doc(roomId)
+        .collection(kMessagesCollection);
+
     return StreamBuilder<QuerySnapshot>(
       stream: messages.orderBy(kCreatedAt, descending: true).snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.hasData) {
-          List<MessageModel> message = [];
+          List<MessageModel> messageList = [];
 
           for (int i = 0; i < snapshot.data!.docs.length; i++) {
-            message.add(MessageModel.fromJson(snapshot.data!.docs[i]));
+            messageList.add(MessageModel.fromJson(snapshot.data!.docs[i]));
           }
           return Scaffold(
             appBar: AppBar(
@@ -72,13 +76,13 @@ class _ChatScreenState extends State<ChatScreen> {
               elevation: 1,
               surfaceTintColor: Colors.transparent,
               centerTitle: true,
-              title: Hero(
+              title: Hero(  
                 tag: 'nameAnimation',
                 child: Text(
-                  'SAWA Chat',
+                  otherUserName,   
                   style: TextStyle(
                     color: kSecoundColor,
-                    fontSize: 25.sp,
+                    fontSize: 22.sp,
                     fontFamily: 'Pacifico',
                   ),
                 ),
@@ -87,8 +91,7 @@ class _ChatScreenState extends State<ChatScreen> {
             body: Column(
               children: [
                 Expanded(
-                  child: message.isEmpty
-                      // ✅ إضافة: empty state لما مفيش رسايل
+                  child: messageList.isEmpty
                       ? Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -112,21 +115,15 @@ class _ChatScreenState extends State<ChatScreen> {
                       : ListView.builder(
                           reverse: true,
                           controller: _controller,
-
-                          itemCount: message.length,
+                          itemCount: messageList.length,
                           itemBuilder: (context, index) {
-                            return message[index].id == email
+                            return messageList[index].id == email
                                 ? Chatbubble(
                                     txtColor: Colors.white,
-                                    message: message[index],
-
+                                    message: messageList[index],
                                     senderOrRecevier: Alignment.centerRight,
                                     paddingForBubble: EdgeInsets.only(
-                                      left: 20,
-                                      top: 16,
-                                      bottom: 16,
-                                      right: 20,
-                                    ),
+                                        left: 20, top: 16, bottom: 16, right: 20),
                                     bubbleColor: Color(0XFF06355C),
                                     borderRadiusGeometry: BorderRadius.only(
                                       topLeft: Radius.circular(20),
@@ -137,11 +134,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                 : Chatbubble(
                                     txtColor: Colors.black,
                                     paddingForBubble: EdgeInsets.only(
-                                      left: 20,
-                                      top: 16,
-                                      bottom: 16,
-                                      right: 20,
-                                    ),
+                                        left: 20, top: 16, bottom: 16, right: 20),
                                     bubbleColor: Color(0XFFF0F0F0),
                                     borderRadiusGeometry: BorderRadius.only(
                                       topLeft: Radius.circular(20),
@@ -149,14 +142,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                       bottomRight: Radius.circular(20),
                                     ),
                                     senderOrRecevier: Alignment.centerLeft,
-                                    message: message[index],
+                                    message: messageList[index],
                                   );
                           },
                         ),
                 ),
                 Padding(
                   padding: EdgeInsets.all(20.r),
-
                   child: Row(
                     children: [
                       Expanded(
@@ -165,53 +157,42 @@ class _ChatScreenState extends State<ChatScreen> {
                             color: const Color(0XFFF0F0F0),
                             borderRadius: BorderRadius.circular(30.r),
                           ),
-
                           child: TextField(
                             controller: controller,
-
                             onSubmitted: (_) {
-                              sendMessage(email);
+                              sendMessage(email, messages); // باصينا الـ reference هنا
                             },
-
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 16.sp,
                             ),
-
                             decoration: InputDecoration(
                               hintText: 'Type a message...',
                               hintStyle: TextStyle(
                                 color: Colors.grey,
                                 fontSize: 14.sp,
                               ),
-
                               contentPadding: EdgeInsets.symmetric(
                                 horizontal: 20.w,
                                 vertical: 18.h,
                               ),
-
                               border: InputBorder.none,
                             ),
                           ),
                         ),
                       ),
-
                       SizedBox(width: 12.w),
-
                       GestureDetector(
                         onTap: () {
-                          sendMessage(email);
+                          sendMessage(email, messages); // باصينا الـ reference هنا
                         },
-
                         child: Container(
                           height: 58.h,
                           width: 58.w,
-
                           decoration: BoxDecoration(
                             color: const Color(0XFF06355C),
                             shape: BoxShape.circle,
                           ),
-
                           child: Icon(
                             Icons.arrow_forward,
                             color: Colors.white,
@@ -228,24 +209,13 @@ class _ChatScreenState extends State<ChatScreen> {
         } else if (snapshot.hasError) {
           return Scaffold(
             backgroundColor: kPrimaryColor,
-            body: Center(
-              child: Text(
-                'There is an error try again later !',
-                style: TextStyle(
-                  color: kSecoundColor, // ✅ fix: كان Colors.white على خلفية بيضاء — مش هيتشاف
-                  fontSize: 18.sp,
-                ),
-              ),
-            ),
+            body: Center(child: Text('Error: ${snapshot.error}')),
           );
         } else {
           return Scaffold(
             backgroundColor: kPrimaryColor,
             body: Center(
-              child: SpinKitWave(
-                color: kSecoundColor, // ✅ fix: كان Colors.white على خلفية بيضاء — مش هيتشاف
-                size: 50.0,
-              ),
+              child: SpinKitWave(color: kSecoundColor, size: 50.0),
             ),
           );
         }

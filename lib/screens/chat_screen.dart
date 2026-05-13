@@ -160,7 +160,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: TextField(
                             controller: controller,
                             onSubmitted: (_) {
-                              sendMessage(email, messages); // باصينا الـ reference هنا
+                              sendMessage(email, messages); 
                             },
                             style: TextStyle(
                               color: Colors.black,
@@ -184,7 +184,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       SizedBox(width: 12.w),
                       GestureDetector(
                         onTap: () {
-                          sendMessage(email, messages); // باصينا الـ reference هنا
+                          sendMessage(email, messages);  
                         },
                         child: Container(
                           height: 58.h,

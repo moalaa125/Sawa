@@ -1,7 +1,7 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/screens/verification_screen.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';   
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/custom_widgets/custom_text_filed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -25,6 +25,7 @@ class _RegisterPageState extends State<RegisterPage> {
   String? email;
   String? password;
   bool isLoading = false;
+  String? userName;
 
   void registration() async {
     if (formKey.currentState!.validate()) {
@@ -33,7 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
           isLoading = true;
         });
 
-        await registerationLogic(); 
+        await registerationLogic();
 
         Navigator.pushNamed(context, VerificationScreen.id);
 
@@ -57,12 +58,15 @@ class _RegisterPageState extends State<RegisterPage> {
     UserCredential userCredential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email!, password: password!);
 
-    await FirebaseFirestore.instance.collection('users').doc(userCredential.user!.uid).set({
-      'email': email,
-      'userName': email!.split('@')[0], 
-      'uid': userCredential.user!.uid,
-      'createdAt': DateTime.now(),
-    });
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(userCredential.user!.uid)
+        .set({
+          'email': email,
+          'userName': userName!,
+          'uid': userCredential.user!.uid,
+          'createdAt': DateTime.now(),
+        });
 
     await userCredential.user!.sendEmailVerification();
   }
@@ -99,7 +103,7 @@ class _RegisterPageState extends State<RegisterPage> {
             Center(
               child: Column(
                 children: [
-                  SizedBox(height: 25.h),
+                  SizedBox(height: 10.h),
                   SizedBox(
                     width: double.infinity,
                     child: Padding(
@@ -122,7 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 50.h),
+                  SizedBox(height: 10.h),
                 ],
               ),
             ),
@@ -133,10 +137,35 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 15),
                   child: Text(
+                    'User name ',
+                    style: TextStyle(color: Colors.black, fontSize: 20),
+                  ),
+                ),
+                CustomTextFiled(
+                  keyBoardType: TextInputType.name,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'wanted section';
+                    } else if (value.length < 3) {
+                      return 'Username must be at least 3 characters';
+                    }
+                    return null;
+                  },
+                  hintText: 'User name',
+                  onChanged: (data) {
+                    userName = data;
+                  },
+                  obscureText: false,
+                ),
+                SizedBox(height: 15.h),
+                Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text(
                     'Email',
                     style: TextStyle(color: Colors.black, fontSize: 20),
                   ),
                 ),
+
                 CustomTextFiled(
                   keyBoardType: TextInputType.emailAddress,
                   validator: (value) {

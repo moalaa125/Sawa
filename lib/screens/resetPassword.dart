@@ -124,7 +124,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                       padding: const EdgeInsets.all(8.0),
                       child: isLoading
                           ? SpinKitDancingSquare(
-                              color: kSecoundColor, // ✅ fix: كان Colors.white على خلفية بيضاء — مش هيتشاف
+                              color: kSecoundColor, 
                               size: 50.0.sp,
                             )
                           : CustomButton(

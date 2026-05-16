@@ -184,7 +184,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       SizedBox(width: 12.w),
                       GestureDetector(
                         onTap: () {
-                          sendMessage(email, messages);  
+                          sendMessage(email, messages); 
                         },
                         child: Container(
                           height: 58.h,

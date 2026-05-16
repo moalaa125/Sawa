@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
             'verificationPage': (context) => VerificationScreen(),
             'chatScreen': (context) => ChatScreen(),
             'resetPassword': (context) => Resetpassword(),
-            'usersScreen' : (context) => UsersScreen(),
+            'usersScreen': (context) => UsersScreen(),
           },
           title: 'Flutter Demo',
           theme: ThemeData(

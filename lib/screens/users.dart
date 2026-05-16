@@ -76,7 +76,6 @@ class UsersScreen extends StatelessWidget {
                       subtitle: Text(otherUserEmail),
                       trailing: Icon(Icons.send_rounded, color: kSecoundColor, size: 20.sp),
                       onTap: () {
-                        // توليد الـ roomId والذهاب للشات الخاص
                         String roomId = generateChatId(myEmail!, otherUserEmail);
 
                         Navigator.pushNamed(

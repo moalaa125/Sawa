@@ -32,11 +32,12 @@ class _LoginPageState extends State<LoginPage> {
           isLoading = true;
         });
         UserCredential userCredential = await logIn();
-         if (!mounted) return;
+        if (!mounted) return;
         if (userCredential.user!.emailVerified) {
           Navigator.of(context).push(sharedAxisRoute(UsersScreen()));
         } else {
           await FirebaseAuth.instance.signOut();
+          if (!mounted) return;
           showSnackBar(context, 'the account does not verified!');
         }
       } on FirebaseAuthException catch (e) {
@@ -54,7 +55,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<UserCredential> logIn() async {
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email!, password: password!);
-        
+
     return userCredential;
   }
 

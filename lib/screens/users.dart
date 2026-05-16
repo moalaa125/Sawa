@@ -3,9 +3,11 @@ import 'package:chat_app/custom_widgets/app_router.dart';
 import 'package:chat_app/screens/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:chat_app/screens/login.dart';
 
 class UsersScreen extends StatelessWidget {
   static String id = 'usersScreen';
@@ -19,6 +21,17 @@ class UsersScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: Icon(Icons.logout, color: kSecoundColor),
+            onPressed: () async {
+              await FirebaseAuth.instance.signOut();
+              Navigator.of(
+                context,
+              ).pushReplacement(sharedAxisRoute(LoginPage()));
+            },
+          ),
+        ],
         backgroundColor: Colors.white,
         elevation: 1,
         shadowColor: Colors.black,

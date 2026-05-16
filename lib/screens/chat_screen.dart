@@ -20,7 +20,6 @@ class _ChatScreenState extends State<ChatScreen> {
   final ScrollController _controller = ScrollController();
   TextEditingController controller = TextEditingController();
 
-  
   void sendMessage(String email, CollectionReference messagesRef) {
     if (controller.text.trim().isEmpty) {
       return;
@@ -50,7 +49,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final arguments = ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
+    final arguments =
+        ModalRoute.of(context)!.settings.arguments as Map<String, dynamic>;
     String email = arguments['email'];
     String roomId = arguments['roomId'];
     String otherUserName = arguments['otherUserName'] ?? 'Chat';
@@ -67,7 +67,11 @@ class _ChatScreenState extends State<ChatScreen> {
           List<MessageModel> messageList = [];
 
           for (int i = 0; i < snapshot.data!.docs.length; i++) {
-            messageList.add(MessageModel.fromJson(snapshot.data!.docs[i]));
+            messageList.add(
+              MessageModel.fromJson(
+                snapshot.data!.docs[i].data() as Map<String, dynamic>,
+              ),
+            );
           }
           return Scaffold(
             appBar: AppBar(
@@ -76,10 +80,10 @@ class _ChatScreenState extends State<ChatScreen> {
               elevation: 1,
               surfaceTintColor: Colors.transparent,
               centerTitle: true,
-              title: Hero(  
+              title: Hero(
                 tag: 'nameAnimation',
                 child: Text(
-                  otherUserName,   
+                  otherUserName,
                   style: TextStyle(
                     color: kSecoundColor,
                     fontSize: 22.sp,
@@ -123,7 +127,11 @@ class _ChatScreenState extends State<ChatScreen> {
                                     message: messageList[index],
                                     senderOrRecevier: Alignment.centerRight,
                                     paddingForBubble: EdgeInsets.only(
-                                        left: 20, top: 16, bottom: 16, right: 20),
+                                      left: 20,
+                                      top: 16,
+                                      bottom: 16,
+                                      right: 20,
+                                    ),
                                     bubbleColor: Color(0XFF06355C),
                                     borderRadiusGeometry: BorderRadius.only(
                                       topLeft: Radius.circular(20),
@@ -134,7 +142,11 @@ class _ChatScreenState extends State<ChatScreen> {
                                 : Chatbubble(
                                     txtColor: Colors.black,
                                     paddingForBubble: EdgeInsets.only(
-                                        left: 20, top: 16, bottom: 16, right: 20),
+                                      left: 20,
+                                      top: 16,
+                                      bottom: 16,
+                                      right: 20,
+                                    ),
                                     bubbleColor: Color(0XFFF0F0F0),
                                     borderRadiusGeometry: BorderRadius.only(
                                       topLeft: Radius.circular(20),
@@ -160,7 +172,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           child: TextField(
                             controller: controller,
                             onSubmitted: (_) {
-                              sendMessage(email, messages); 
+                              sendMessage(email, messages);
                             },
                             style: TextStyle(
                               color: Colors.black,
@@ -184,7 +196,7 @@ class _ChatScreenState extends State<ChatScreen> {
                       SizedBox(width: 12.w),
                       GestureDetector(
                         onTap: () {
-                          sendMessage(email, messages); 
+                          sendMessage(email, messages);
                         },
                         child: Container(
                           height: 58.h,
@@ -214,9 +226,7 @@ class _ChatScreenState extends State<ChatScreen> {
         } else {
           return Scaffold(
             backgroundColor: kPrimaryColor,
-            body: Center(
-              child: SpinKitWave(color: kSecoundColor, size: 50.0),
-            ),
+            body: Center(child: SpinKitWave(color: kSecoundColor, size: 50.0)),
           );
         }
       },

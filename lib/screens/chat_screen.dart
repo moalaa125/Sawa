@@ -74,6 +74,7 @@ class _ChatScreenState extends State<ChatScreen> {
             );
           }
           return Scaffold(
+            backgroundColor: kPrimaryColor,
             appBar: AppBar(
               backgroundColor: Colors.white,
               shadowColor: Colors.black,

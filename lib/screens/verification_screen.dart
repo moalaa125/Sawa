@@ -1,4 +1,5 @@
 import 'package:chat_app/constant.dart';
+import 'package:chat_app/custom_widgets/app_router.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/custom_widgets/custom_text_button.dart';
 import 'package:chat_app/custom_widgets/show_snack_bar.dart';
@@ -30,6 +31,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
       });
 
       await user?.sendEmailVerification();
+      if (!mounted) return;
 
       showSnackBar(context, 'Verification link has been resent to your email');
     } catch (e) {
@@ -43,13 +45,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
 
   Future<void> isTheUserVerified() async {
     await FirebaseAuth.instance.currentUser?.reload();
-
+    if (!mounted) return;
     User? user = FirebaseAuth.instance.currentUser;
 
     if (user != null && user.emailVerified) {
       showSnackBar(context, 'Email verified successfully!');
 
-      Navigator.pushReplacementNamed(context, loginPage.id);
+      Navigator.of(context).pushReplacement(sharedAxisRoute(LoginPage()));
     } else {
       showSnackBar(context, 'Email not verified yet, please check your inbox');
     }
@@ -66,17 +68,14 @@ class _VerificationScreenState extends State<VerificationScreen> {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
 
-        title: Hero(
-          tag: 'nameAnimation',
-          child: Material(
-            color: Colors.transparent,
-            child: Text(
-              'SAWA Chat',
-              style: TextStyle(
-                color: kSecoundColor,
-                fontSize: 25.sp,
-                fontFamily: 'Pacifico',
-              ),
+        title: Material(
+          color: Colors.transparent,
+          child: Text(
+            'SAWA Chat',
+            style: TextStyle(
+              color: kSecoundColor,
+              fontSize: 25.sp,
+              fontFamily: 'Pacifico',
             ),
           ),
         ),
@@ -150,7 +149,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                             isTheUserVerified();
                           },
 
-                          text: 'I,ve verified,continue',
+                          text: "I've verified, continue",
                         ),
 
                   SizedBox(height: 5.h),

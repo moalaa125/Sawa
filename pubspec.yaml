@@ -18,6 +18,7 @@ dependencies:
   email_otp: ^3.1.0
   cloud_firestore: ^6.3.0
   flutter_screenutil: ^5.9.3
+  animations: ^2.2.0
 
 dev_dependencies:
   flutter_test:

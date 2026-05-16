@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           routes: {
-            'loginPage': (context) => loginPage(),
+            'loginPage': (context) => LoginPage(),
             'registerPage': (context) => RegisterPage(),
             'verificationPage': (context) => VerificationScreen(),
             'chatScreen': (context) => ChatScreen(),

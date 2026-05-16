@@ -24,7 +24,7 @@ class _ResetpasswordState extends State<Resetpassword> {
 
   GlobalKey<FormState> formkey = GlobalKey();
 
-  sendLinkToResetPassword() async {
+  Future<void> sendLinkToResetPassword() async {  
     if (!formkey.currentState!.validate()) {
       return;
     }
@@ -35,6 +35,7 @@ class _ResetpasswordState extends State<Resetpassword> {
       });
 
       await FirebaseAuth.instance.sendPasswordResetEmail(email: code!);
+      if (!mounted) return;
 
       showSnackBar(context, 'The link was sent to you!');
 
@@ -124,7 +125,7 @@ class _ResetpasswordState extends State<Resetpassword> {
                       padding: const EdgeInsets.all(8.0),
                       child: isLoading
                           ? SpinKitDancingSquare(
-                              color: kSecoundColor, 
+                              color: kSecoundColor,
                               size: 50.0.sp,
                             )
                           : CustomButton(

@@ -1,4 +1,5 @@
 import 'package:chat_app/constant.dart';
+import 'package:chat_app/custom_widgets/app_router.dart';
 import 'package:chat_app/custom_widgets/custom_text_filed.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/custom_widgets/custom_text_button.dart';
@@ -13,45 +14,47 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class loginPage extends StatefulWidget {
-  const loginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  State<loginPage> createState() => _loginPageState();
+  State<LoginPage> createState() => _LoginPageState();
 
   static String id = 'loginPage';
 }
 
-class _loginPageState extends State<loginPage> {
+class _LoginPageState extends State<LoginPage> {
   bool isLoading = false;
-    void signIn() async {
-      if (formkey.currentState!.validate()) {
-        try {
-          setState(() {
-            isLoading = true;
-          });
-          UserCredential userCredential = await logIn();
-          if (userCredential.user!.emailVerified) {
-            Navigator.pushNamed(context, UsersScreen.id);
-          } else {
-            await FirebaseAuth.instance.signOut();
-            showSnackBar(context, 'the account does not verified!');
-          }
-        } on FirebaseAuthException catch (e) {
-          showSnackBar(
-            context,
-            e.message ?? 'there is an error please try again later!',
-          );
-        }
+  void signIn() async {
+    if (formkey.currentState!.validate()) {
+      try {
         setState(() {
-          isLoading = false;
+          isLoading = true;
         });
+        UserCredential userCredential = await logIn();
+         if (!mounted) return;
+        if (userCredential.user!.emailVerified) {
+          Navigator.of(context).push(sharedAxisRoute(UsersScreen()));
+        } else {
+          await FirebaseAuth.instance.signOut();
+          showSnackBar(context, 'the account does not verified!');
+        }
+      } on FirebaseAuthException catch (e) {
+        showSnackBar(
+          context,
+          e.message ?? 'there is an error please try again later!',
+        );
       }
+      setState(() {
+        isLoading = false;
+      });
     }
+  }
 
   Future<UserCredential> logIn() async {
     UserCredential userCredential = await FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email!, password: password!);
+        
     return userCredential;
   }
 
@@ -86,15 +89,12 @@ class _loginPageState extends State<loginPage> {
                     ),
                   ),
                   SizedBox(height: 15.h),
-                  Hero(
-                    tag: 'nameAnimation',
-                    child: Text(
-                      'SAWA Chat',
-                      style: TextStyle(
-                        color: kSecoundColor,
-                        fontSize: 30.sp,
-                        fontFamily: 'Pacifico',
-                      ),
+                  Text(
+                    'SAWA Chat',
+                    style: TextStyle(
+                      color: kSecoundColor,
+                      fontSize: 30.sp,
+                      fontFamily: 'Pacifico',
                     ),
                   ),
                   SizedBox(height: 70.h),
@@ -158,7 +158,9 @@ class _loginPageState extends State<loginPage> {
                     fontWeight: FontWeight.normal,
                     text: 'Forget Password',
                     onPressed: () {
-                      Navigator.pushNamed(context, Resetpassword.id);
+                      Navigator.of(
+                        context,
+                      ).push(sharedAxisRoute(Resetpassword()));
                     },
                   ),
                 ),
@@ -178,7 +180,9 @@ class _loginPageState extends State<loginPage> {
                       fontWeight: FontWeight.w500,
                       text: 'Sign Up',
                       onPressed: () {
-                        Navigator.pushNamed(context, RegisterPage.id);
+                        Navigator.of(
+                          context,
+                        ).push(sharedAxisRoute(RegisterPage()));
                       },
                     ),
                   ],

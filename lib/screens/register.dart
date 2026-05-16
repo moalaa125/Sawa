@@ -1,4 +1,5 @@
 import 'package:chat_app/constant.dart';
+import 'package:chat_app/custom_widgets/app_router.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/screens/verification_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +12,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({super.key});
+   const RegisterPage({super.key});
 
   static String id = 'registerPage';
 
@@ -35,8 +36,9 @@ class _RegisterPageState extends State<RegisterPage> {
         });
 
         await registerationLogic();
+         if (!mounted) return;
 
-        Navigator.pushNamed(context, VerificationScreen.id);
+        Navigator.of(context).push(sharedAxisRoute(VerificationScreen()));
 
         showSnackBar(context, 'check your mail check (spam)!');
       } on FirebaseAuthException catch (e) {
@@ -46,7 +48,7 @@ class _RegisterPageState extends State<RegisterPage> {
           showSnackBar(context, 'email already exist!');
         }
       } catch (ex) {
-        showSnackBar(context, 'error!');
+        showSnackBar(context, ex.toString().replaceAll('Exception: ', ''));
       }
       setState(() {
         isLoading = false;
@@ -55,6 +57,16 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> registerationLogic() async {
+    QuerySnapshot result = await FirebaseFirestore.instance
+        .collection('users')
+        .where('userName', isEqualTo: userName)
+        .get();
+         if (!mounted) return;
+
+    if (result.docs.isNotEmpty) {
+      throw Exception('Username already taken!');
+    }
+
     UserCredential userCredential = await FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email!, password: password!);
 
@@ -72,7 +84,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   GlobalKey<FormState> formKey = GlobalKey();
-  var confirmPass;
+  String? confirmPass;
 
   @override
   Widget build(BuildContext context) {
@@ -83,15 +95,12 @@ class _RegisterPageState extends State<RegisterPage> {
         elevation: 1,
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
-        title: Hero(
-          tag: 'nameAnimation',
-          child: Text(
-            'SAWA Chat',
-            style: TextStyle(
-              color: kSecoundColor,
-              fontSize: 25.sp,
-              fontFamily: 'Pacifico',
-            ),
+        title: Text(
+          'SAWA Chat',
+          style: TextStyle(
+            color: kSecoundColor,
+            fontSize: 25.sp,
+            fontFamily: 'Pacifico',
           ),
         ),
       ),

@@ -1,4 +1,5 @@
 import 'package:chat_app/constant.dart';
+import 'package:chat_app/custom_widgets/app_router.dart';
 import 'package:chat_app/screens/chat_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,19 +49,24 @@ class UsersScreen extends StatelessWidget {
               itemCount: users.length,
               itemBuilder: (context, index) {
                 var userData = users[index].data() as Map<String, dynamic>;
-                
+
                 String otherUserEmail = userData['email'] ?? "No Email";
-                
-                String displayName = userData.containsKey('userName') 
-                    ? userData['userName'] 
+
+                String displayName = userData.containsKey('userName')
+                    ? userData['userName']
                     : otherUserEmail.split('@')[0];
 
                 return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 16.w,
+                    vertical: 8.h,
+                  ),
                   child: Card(
                     elevation: 0,
                     color: const Color(0xFFF0F0F0),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.r),
+                    ),
                     child: ListTile(
                       leading: CircleAvatar(
                         backgroundColor: kSecoundColor,
@@ -71,21 +77,32 @@ class UsersScreen extends StatelessWidget {
                       ),
                       title: Text(
                         displayName,
-                        style: TextStyle(fontWeight: FontWeight.bold, color: kSecoundColor),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: kSecoundColor,
+                        ),
                       ),
                       subtitle: Text(otherUserEmail),
-                      trailing: Icon(Icons.send_rounded, color: kSecoundColor, size: 20.sp),
+                      trailing: Icon(
+                        Icons.send_rounded,
+                        color: kSecoundColor,
+                        size: 20.sp,
+                      ),
                       onTap: () {
-                        String roomId = generateChatId(myEmail!, otherUserEmail);
+                        String roomId = generateChatId(
+                          myEmail!,
+                          otherUserEmail,
+                        );
 
-                        Navigator.pushNamed(
-                          context,
-                          ChatScreen.id,
-                          arguments: {
-                            'email': myEmail,
-                            'roomId': roomId,
-                            'otherUserName': displayName,
-                          },
+                        Navigator.of(context).push(
+                          sharedAxisRoute(
+                            ChatScreen(),
+                            arguments: {
+                              'email': myEmail,
+                              'roomId': roomId,
+                              'otherUserName': displayName,
+                            },
+                          ),
                         );
                       },
                     ),
@@ -96,9 +113,7 @@ class UsersScreen extends StatelessWidget {
           } else if (snapshot.hasError) {
             return const Center(child: Text("Something went wrong"));
           } else {
-            return Center(
-              child: SpinKitWave(color: kSecoundColor, size: 50.0),
-            );
+            return Center(child: SpinKitWave(color: kSecoundColor, size: 50.0));
           }
         },
       ),

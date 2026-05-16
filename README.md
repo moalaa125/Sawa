@@ -1,6 +1,6 @@
 # 💬 Sawa Chat
 
-**Sawa** is a real-time chat application built with **Flutter** and **Firebase**, featuring a full authentication flow with email verification and a clean, premium UI.
+**Sawa** is a real-time chat application built with **Flutter** and **Firebase**, featuring a full authentication flow with email verification, private messaging between users, and a clean, premium UI.
 
 ---
 
@@ -17,12 +17,15 @@
 - 🔐 **Email & Password Authentication** (Firebase Auth)
 - ✅ **Email Verification** before accessing the chat
 - 🔑 **Reset Password** via email link
-- 💬 **Real-time Chat** with Firestore
+- 👤 **Username Registration** with uniqueness validation
+- 💬 **Private Real-time Chat** between users via Firestore
+- 👥 **Users Screen** to browse and start conversations
+- 🔀 **Smooth Screen Transitions** with SharedAxis animations
 - ⚡ **Loading indicators** with SpinKit animations
 - 📱 **Responsive UI** with flutter_screenutil
 - 🎨 **Custom reusable widgets** (Button, TextField, SnackBar)
-- 🦸 **Hero animation** on the app name between screens
 - 🗨️ **Chat bubbles** — sender (navy) / receiver (light gray)
+- 💬 **Empty state** when no messages exist
 
 ---
 
@@ -32,10 +35,11 @@
 |---|---|
 | Flutter | UI Framework |
 | Firebase Auth | Authentication |
-| Cloud Firestore | Real-time Database |
+| Cloud Firestore | Real-time Database & User Storage |
 | flutter_spinkit | Loading animations |
 | flutter_screenutil | Responsive sizing |
 | email_validator | Email format validation |
+| animations | Shared axis screen transitions |
 
 ---
 
@@ -44,22 +48,34 @@
 ```
 lib/
 ├── main.dart                    # App entry point & routes
-├── constant.dart                # Colors & Firestore constants
+├── constant.dart                # Colors, Firestore constants & generateChatId
 ├── firebase_options.dart        # Firebase config (auto-generated)
 ├── models/
 │   └── message_model.dart       # Message data model
 ├── custom_widgets/
-│   ├── chatBubble.dart          # Chat bubble widget
+│   ├── app_router.dart          # Shared axis route transition
+│   ├── chat_bubble.dart         # Chat bubble widget
 │   ├── custom_button.dart       # Reusable primary button
 │   ├── custom_text_button.dart  # Reusable text button
 │   ├── custom_text_filed.dart   # Reusable text field
 │   └── show_snack_bar.dart      # Global snackbar helper
 └── screens/
     ├── login.dart               # Login screen
-    ├── register.dart            # Register screen
-    ├── chat_screen.dart         # Main chat screen
+    ├── register.dart            # Register screen with username
+    ├── chat_screen.dart         # Private chat screen
+    ├── users.dart               # Users list screen
     ├── verification_screen.dart # Email verification screen
     └── resetPassword.dart       # Reset password screen
+```
+
+---
+
+## 🔄 App Flow
+
+```
+Login → Users Screen → Select User → Private Chat Room
+  ↓
+Register → Enter Username + Email + Password → Email Verification → Login
 ```
 
 ---
@@ -111,6 +127,7 @@ dependencies:
   flutter_spinkit: latest
   flutter_screenutil: latest
   email_validator: latest
+  animations: latest
 ```
 
 ---
@@ -131,7 +148,8 @@ dependencies:
 - [ ] Add typing indicator
 - [ ] Add user profile & avatar
 - [ ] Add image sharing in chat
-- [ ] Private chat rooms between users
+- [ ] Add friends system with username search
+- [ ] Add logout button in users screen
 
 ---
 

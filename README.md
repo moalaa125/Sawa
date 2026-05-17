@@ -21,6 +21,8 @@
 - 💬 **Private Real-time Chat** between users via Firestore
 - 👥 **Users Screen** to browse and start conversations
 - 🔀 **Smooth Screen Transitions** with SharedAxis animations
+- 🚪 **Logout** from the users screen
+- 💾 **Auto Login** — stays logged in after closing the app
 - ⚡ **Loading indicators** with SpinKit animations
 - 📱 **Responsive UI** with flutter_screenutil
 - 🎨 **Custom reusable widgets** (Button, TextField, SnackBar)
@@ -34,7 +36,7 @@
 | Technology | Usage |
 |---|---|
 | Flutter | UI Framework |
-| Firebase Auth | Authentication |
+| Firebase Auth | Authentication & Session Persistence |
 | Cloud Firestore | Real-time Database & User Storage |
 | flutter_spinkit | Loading animations |
 | flutter_screenutil | Responsive sizing |
@@ -47,7 +49,7 @@
 
 ```
 lib/
-├── main.dart                    # App entry point & routes
+├── main.dart                    # App entry point, routes & auto login check
 ├── constant.dart                # Colors, Firestore constants & generateChatId
 ├── firebase_options.dart        # Firebase config (auto-generated)
 ├── models/
@@ -63,7 +65,7 @@ lib/
     ├── login.dart               # Login screen
     ├── register.dart            # Register screen with username
     ├── chat_screen.dart         # Private chat screen
-    ├── users.dart               # Users list screen
+    ├── users.dart               # Users list screen with logout
     ├── verification_screen.dart # Email verification screen
     └── resetPassword.dart       # Reset password screen
 ```
@@ -73,9 +75,14 @@ lib/
 ## 🔄 App Flow
 
 ```
-Login → Users Screen → Select User → Private Chat Room
-  ↓
-Register → Enter Username + Email + Password → Email Verification → Login
+Open App
+  ├── Already logged in → Users Screen (Auto Login)
+  └── Not logged in → Login Screen
+        ├── Login → Users Screen
+        └── Register → Username + Email + Password → Email Verification → Login
+
+Users Screen → Select User → Private Chat Room
+Users Screen → Logout → Login Screen
 ```
 
 ---
@@ -149,7 +156,6 @@ dependencies:
 - [ ] Add user profile & avatar
 - [ ] Add image sharing in chat
 - [ ] Add friends system with username search
-- [ ] Add logout button in users screen
 
 ---
 

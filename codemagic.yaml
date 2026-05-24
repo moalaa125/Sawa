@@ -11,15 +11,18 @@ workflows:
       - name: Patch Xcode Project (Version & Signing Bypass)
         script: |
           python3 -c "
+          import re
           with open('ios/Runner.xcodeproj/project.pbxproj', 'r') as f:
               content = f.read()
-          # تعديل الإصدار وقفل التوقيع الرقمي بدقة داخل ملف المشروع لمنع تعنت SPM
-          patched = content.replace('IPHONEOS_DEPLOYMENT_TARGET = 13.0;', 'IPHONEOS_DEPLOYMENT_TARGET = 15.0; CODE_SIGNING_ALLOWED = NO; CODE_SIGNING_REQUIRED = NO; DEVELOPMENT_TEAM = \"\";')
+          # حذف أي سطور قديمة للإصدار لتفادي التكرار
+          content = re.sub(r'IPHONEOS_DEPLOYMENT_TARGET = .*?;', '', content)
+          # حقن الإعدادات الجديدة بالملّي جوه كل الـ buildSettings
+          patched = content.replace('buildSettings = {', 'buildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 15.0;\n\t\t\t\tCODE_SIGNING_ALLOWED = NO;\n\t\t\t\tCODE_SIGNING_REQUIRED = NO;\n\t\t\t\tDEVELOPMENT_TEAM = \"\";')
           with open('ios/Runner.xcodeproj/project.pbxproj', 'w') as f:
               f.write(patched)
           "
       - name: Flutter build iOS (Unsigned)
-        script: flutter build ios --release --no-codesign --xcarguments="CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO DEVELOPMENT_TEAM=''"
+        script: flutter build ios --release --no-codesign
       - name: Package Unsigned IPA
         script: |
           mkdir -p build/ios/ipa/Payload

@@ -8,6 +8,8 @@ workflows:
     scripts:
       - name: Flutter pub get
         script: flutter packages pub get
+      - name: Fix iOS Deployment Target for SPM
+        script: sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' ios/Runner.xcodeproj/project.pbxproj
       - name: Flutter build iOS
         script: flutter build ios --release --no-codesign
     artifacts:

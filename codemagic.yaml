@@ -1,0 +1,14 @@
+workflows:
+  flutter-ios-build:
+    name: Sawa iOS Build
+    instance_type: mac_mini_m1
+    environment:
+      flutter: stable
+      xcode: latest
+    scripts:
+      - name: Flutter pub get
+        script: flutter packages pub get
+      - name: Flutter build iOS
+        script: flutter build ios --release --no-codesign
+    artifacts:
+      - build/ios/ipa/*.ipa

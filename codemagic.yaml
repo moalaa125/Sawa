@@ -8,16 +8,20 @@ workflows:
     scripts:
       - name: Flutter pub get
         script: flutter packages pub get
-      - name: Patch Xcode Project (Version & Signing Bypass)
+      - name: Fix iOS Deployment Target for SPM
+        script: sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' ios/Runner.xcodeproj/project.pbxproj
+      - name: Inject Dummy Development Team & Bypass Signing
         script: |
+          # حقن الـ Team الوهمي وإعدادات التخطّي داخل ملف الـ الـ xcconfig الخاص بالـ Release
+          echo "DEVELOPMENT_TEAM = 1A2B3C4D5E" >> ios/Runner/Release.xcconfig
+          echo "CODE_SIGNING_ALLOWED = NO" >> ios/Runner/Release.xcconfig
+          echo "CODE_SIGNING_REQUIRED = NO" >> ios/Runner/Release.xcconfig
+          
+          # تعديل ملف المشروع الرئيسي للتأكيد على الـ Team الوهمي ومنع توقف الـ SPM
           python3 -c "
-          import re
           with open('ios/Runner.xcodeproj/project.pbxproj', 'r') as f:
               content = f.read()
-          # حذف أي سطور قديمة للإصدار لتفادي التكرار
-          content = re.sub(r'IPHONEOS_DEPLOYMENT_TARGET = .*?;', '', content)
-          # حقن الإعدادات الجديدة بالملّي جوه كل الـ buildSettings
-          patched = content.replace('buildSettings = {', 'buildSettings = {\n\t\t\t\tIPHONEOS_DEPLOYMENT_TARGET = 15.0;\n\t\t\t\tCODE_SIGNING_ALLOWED = NO;\n\t\t\t\tCODE_SIGNING_REQUIRED = NO;\n\t\t\t\tDEVELOPMENT_TEAM = \"\";')
+          patched = content.replace('buildSettings = {', 'buildSettings = {\n\t\t\t\tDEVELOPMENT_TEAM = 1A2B3C4D5E;')
           with open('ios/Runner.xcodeproj/project.pbxproj', 'w') as f:
               f.write(patched)
           "

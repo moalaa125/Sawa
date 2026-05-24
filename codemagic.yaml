@@ -8,14 +8,18 @@ workflows:
     scripts:
       - name: Flutter pub get
         script: flutter packages pub get
-      - name: Fix iOS Deployment Target for SPM
-        script: sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' ios/Runner.xcodeproj/project.pbxproj
-      - name: Disable Xcode Code Signing
+      - name: Patch Xcode Project (Version & Signing Bypass)
         script: |
-          echo "CODE_SIGNING_ALLOWED = NO" >> ios/Runner/Release.xcconfig
-          echo "CODE_SIGNING_REQUIRED = NO" >> ios/Runner/Release.xcconfig
+          python3 -c "
+          with open('ios/Runner.xcodeproj/project.pbxproj', 'r') as f:
+              content = f.read()
+          # تعديل الإصدار وقفل التوقيع الرقمي بدقة داخل ملف المشروع لمنع تعنت SPM
+          patched = content.replace('IPHONEOS_DEPLOYMENT_TARGET = 13.0;', 'IPHONEOS_DEPLOYMENT_TARGET = 15.0; CODE_SIGNING_ALLOWED = NO; CODE_SIGNING_REQUIRED = NO; DEVELOPMENT_TEAM = \"\";')
+          with open('ios/Runner.xcodeproj/project.pbxproj', 'w') as f:
+              f.write(patched)
+          "
       - name: Flutter build iOS (Unsigned)
-        script: flutter build ios --release --no-codesign
+        script: flutter build ios --release --no-codesign --xcarguments="CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO DEVELOPMENT_TEAM=''"
       - name: Package Unsigned IPA
         script: |
           mkdir -p build/ios/ipa/Payload

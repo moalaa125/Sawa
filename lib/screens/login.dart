@@ -68,129 +68,136 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kPrimaryColor,
-      body: Form(
-        key: formkey,
-        child: ListView(
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 50.h),
-                  Container(
-                    height: 65.h,
-                    width: 70.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15.r),
-                      color: kSecoundColor,
-                    ),
-                    child: Icon(
-                      CupertinoIcons.chat_bubble,
-                      color: Colors.white,
-                      size: 35.sp,
-                    ),
-                  ),
-                  SizedBox(height: 15.h),
-                  Text(
-                    'SAWA Chat',
-                    style: TextStyle(
-                      color: kSecoundColor,
-                      fontSize: 30.sp,
-                      fontFamily: 'Pacifico',
-                    ),
-                  ),
-                  SizedBox(height: 70.h),
-                ],
-              ),
-            ),
-
-            Column(
-              children: [
-                Text(
-                  'Welcome back',
-                  style: TextStyle(color: Colors.black, fontSize: 20.sp),
-                ),
-                SizedBox(height: 30.h),
-                CustomTextFiled(
-                  keyBoardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'wanted section';
-                    } else if (!EmailValidator.validate(value)) {
-                      return 'Enter a valid mail !';
-                    }
-                    return null;
-                  },
-                  hintText: 'Email address',
-                  onChanged: (data) {
-                    email = data;
-                  },
-                  obscureText: false,
-                ),
-                SizedBox(height: 2.h),
-                CustomTextFiled(
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'wanted section';
-                    }
-                    return null;
-                  },
-                  hintText: 'Password',
-                  onChanged: (data) {
-                    password = data;
-                  },
-                  obscureText: true,
-                ),
-                SizedBox(height: 5.h),
-                Padding(
-                  padding: EdgeInsets.all(8.0.r),
-                  child: isLoading
-                      ? SpinKitDancingSquare(color: Colors.black, size: 50.0.sp)
-                      : CustomButton(
-                          ontap: () {
-                            signIn();
-                          },
-                          text: 'LOGIN',
-                        ),
-                ),
-                SizedBox(height: 20.h),
-                Center(
-                  child: CustomTextButton(
-                    textStyle: TextStyle(color: Colors.black, fontSize: 18.sp),
-                    fontWeight: FontWeight.normal,
-                    text: 'Forget Password',
-                    onPressed: () {
-                      Navigator.of(
-                        context,
-                      ).push(sharedAxisRoute(Resetpassword()));
-                    },
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,    
+        onTap: () {
+          FocusScope.of(context).unfocus(); 
+        },
+        child: Form(
+          key: formkey,
+          child: ListView(
+            // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            children: [
+              Center(
+                child: Column(
                   children: [
-                    Text(
-                      'Dont have an account?',
-                      style: TextStyle(color: Colors.black, fontSize: 18.sp),
-                    ),
-                    SizedBox(width: 5.w),
-                    CustomTextButton(
-                      textStyle: TextStyle(
-                        color: Colors.black,
-                        fontSize: 18.sp,
+                    SizedBox(height: 50.h),
+                    Container(
+                      height: 65.h,
+                      width: 70.w,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.r),
+                        color: kSecoundColor,
                       ),
-                      fontWeight: FontWeight.w500,
-                      text: 'Sign Up',
+                      child: Icon(
+                        CupertinoIcons.chat_bubble,
+                        color: Colors.white,
+                        size: 35.sp,
+                      ),
+                    ),
+                    SizedBox(height: 15.h),
+                    Text(
+                      'SAWA Chat',
+                      style: TextStyle(
+                        color: kSecoundColor,
+                        fontSize: 30.sp,
+                        fontFamily: 'Pacifico',
+                      ),
+                    ),
+                    SizedBox(height: 70.h),
+                  ],
+                ),
+              ),
+        
+              Column(
+                children: [
+                  Text(
+                    'Welcome back',
+                    style: TextStyle(color: Colors.black, fontSize: 20.sp),
+                  ),
+                  SizedBox(height: 30.h),
+                  CustomTextFiled(
+                    keyBoardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'wanted section';
+                      } else if (!EmailValidator.validate(value)) {
+                        return 'Enter a valid mail !';
+                      }
+                      return null;
+                    },
+                    hintText: 'Email address',
+                    onChanged: (data) {
+                      email = data;
+                    },
+                    obscureText: false,
+                  ),
+                  SizedBox(height: 2.h),
+                  CustomTextFiled(
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'wanted section';
+                      }
+                      return null;
+                    },
+                    hintText: 'Password',
+                    onChanged: (data) {
+                      password = data;
+                    },
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 5.h),
+                  Padding(
+                    padding: EdgeInsets.all(8.0.r),
+                    child: isLoading
+                        ? SpinKitDancingSquare(color: Colors.black, size: 50.0.sp)
+                        : CustomButton(
+                            ontap: () {
+                              signIn();
+                            },
+                            text: 'LOGIN',
+                          ),
+                  ),
+                  SizedBox(height: 20.h),
+                  Center(
+                    child: CustomTextButton(
+                      textStyle: TextStyle(color: Colors.black, fontSize: 18.sp),
+                      fontWeight: FontWeight.normal,
+                      text: 'Forget Password',
                       onPressed: () {
                         Navigator.of(
                           context,
-                        ).push(sharedAxisRoute(RegisterPage()));
+                        ).push(sharedAxisRoute(Resetpassword()));
                       },
                     ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Dont have an account?',
+                        style: TextStyle(color: Colors.black, fontSize: 18.sp),
+                      ),
+                      SizedBox(width: 5.w),
+                      CustomTextButton(
+                        textStyle: TextStyle(
+                          color: Colors.black,
+                          fontSize: 18.sp,
+                        ),
+                        fontWeight: FontWeight.w500,
+                        text: 'Sign Up',
+                        onPressed: () {
+                          Navigator.of(
+                            context,
+                          ).push(sharedAxisRoute(RegisterPage()));
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

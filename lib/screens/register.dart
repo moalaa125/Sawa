@@ -105,176 +105,182 @@ class _RegisterPageState extends State<RegisterPage> {
         ),
       ),
       backgroundColor: kPrimaryColor,
-      body: Form(
-        key: formKey,
-        child: ListView(
-          children: [
-            Center(
-              child: Column(
-                children: [
-                  SizedBox(height: 10.h),
-                  SizedBox(
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Create account',
-                            style: TextStyle(
-                              color: kSecoundColor,
-                              fontSize: 35.sp,
-                              fontFamily: 'amara',
-                            ),
-                          ),
-                          Text(
-                            'Enter your details to start your journy with us.',
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                ],
-              ),
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 3.h),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    'User name ',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                CustomTextFiled(
-                  keyBoardType: TextInputType.name,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'wanted section';
-                    } else if (value.length < 3) {
-                      return 'Username must be at least 3 characters';
-                    }
-                    return null;
-                  },
-                  hintText: 'User name',
-                  onChanged: (data) {
-                    userName = data;
-                  },
-                  obscureText: false,
-                ),
-                SizedBox(height: 15.h),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    'Email',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-
-                CustomTextFiled(
-                  keyBoardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'wanted section';
-                    } else if (!EmailValidator.validate(value)) {
-                      return 'Enter a valid mail';
-                    }
-                    return null;
-                  },
-                  hintText: 'Email',
-                  onChanged: (data) {
-                    email = data;
-                  },
-                  obscureText: false,
-                ),
-                SizedBox(height: 15.h),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    'password',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                CustomTextFiled(
-                  onChanged: (data) {
-                    password = data;
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Wanted section';
-                    } else if (value.length < 8) {
-                      return 'the password should bigger that 8 char';
-                    } else if (!value.contains(RegExp(r'[0-9]'))) {
-                      return 'should contain at least number';
-                    }
-                    return null;
-                  },
-                  hintText: 'Password',
-                  obscureText: true,
-                ),
-                SizedBox(height: 15.h),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(
-                    'Confirm Password',
-                    style: TextStyle(color: Colors.black, fontSize: 20),
-                  ),
-                ),
-                SizedBox(height: 3.h),
-                CustomTextFiled(
-                  validator: (value) {
-                    confirmPass = value;
-                    if (value == null || value.isEmpty) {
-                      return 'Wanted section';
-                    } else if (value.length < 8) {
-                      return 'the password should bigger that 8 char';
-                    } else if (!value.contains(RegExp(r'[0-9]'))) {
-                      return 'should contain at least number';
-                    } else if (value != password) {
-                      return 'Password must be same as above';
-                    }
-                    return null;
-                  },
-                  hintText: 'Re-Enter The Password',
-                  onChanged: null,
-                  obscureText: true,
-                ),
-                SizedBox(height: 30),
-                Center(
-                  child: isLoading
-                      ? const SpinKitDancingSquare(
-                          color: Colors.black,
-                          size: 50.0,
-                        )
-                      : CustomButton(ontap: registration, text: 'Register'),
-                ),
-                SizedBox(height: 15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+      body: GestureDetector(
+        behavior: HitTestBehavior.opaque,     
+        onTap: () {
+          FocusScope.of(context).unfocus(); 
+        },
+        child: Form(
+          key: formKey,
+          child: ListView(
+            children: [
+              Center(
+                child: Column(
                   children: [
-                    Text(
-                      'Already have an account ?',
-                      style: TextStyle(color: Colors.black, fontSize: 18),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      child: Text(
-                        'Login',
-                        style: TextStyle(color: Colors.black, fontSize: 20),
+                    SizedBox(height: 10.h),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Create account',
+                              style: TextStyle(
+                                color: kSecoundColor,
+                                fontSize: 35.sp,
+                                fontFamily: 'amara',
+                              ),
+                            ),
+                            Text(
+                              'Enter your details to start your journy with us.',
+                            ),
+                          ],
+                        ),
                       ),
                     ),
+                    SizedBox(height: 10.h),
                   ],
                 ),
-              ],
-            ),
-          ],
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(height: 3.h),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      'User name ',
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  CustomTextFiled(
+                    keyBoardType: TextInputType.name,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'wanted section';
+                      } else if (value.length < 3) {
+                        return 'Username must be at least 3 characters';
+                      }
+                      return null;
+                    },
+                    hintText: 'User name',
+                    onChanged: (data) {
+                      userName = data;
+                    },
+                    obscureText: false,
+                  ),
+                  SizedBox(height: 15.h),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      'Email',
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+        
+                  CustomTextFiled(
+                    keyBoardType: TextInputType.emailAddress,
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'wanted section';
+                      } else if (!EmailValidator.validate(value)) {
+                        return 'Enter a valid mail';
+                      }
+                      return null;
+                    },
+                    hintText: 'Email',
+                    onChanged: (data) {
+                      email = data;
+                    },
+                    obscureText: false,
+                  ),
+                  SizedBox(height: 15.h),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      'password',
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  CustomTextFiled(
+                    onChanged: (data) {
+                      password = data;
+                    },
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Wanted section';
+                      } else if (value.length < 8) {
+                        return 'the password should bigger that 8 char';
+                      } else if (!value.contains(RegExp(r'[0-9]'))) {
+                        return 'should contain at least number';
+                      }
+                      return null;
+                    },
+                    hintText: 'Password',
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 15.h),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 15),
+                    child: Text(
+                      'Confirm Password',
+                      style: TextStyle(color: Colors.black, fontSize: 20),
+                    ),
+                  ),
+                  SizedBox(height: 3.h),
+                  CustomTextFiled(
+                    validator: (value) {
+                      confirmPass = value;
+                      if (value == null || value.isEmpty) {
+                        return 'Wanted section';
+                      } else if (value.length < 8) {
+                        return 'the password should bigger that 8 char';
+                      } else if (!value.contains(RegExp(r'[0-9]'))) {
+                        return 'should contain at least number';
+                      } else if (value != password) {
+                        return 'Password must be same as above';
+                      }
+                      return null;
+                    },
+                    hintText: 'Re-Enter The Password',
+                    onChanged: null,
+                    obscureText: true,
+                  ),
+                  SizedBox(height: 30),
+                  Center(
+                    child: isLoading
+                        ? const SpinKitDancingSquare(
+                            color: Colors.black,
+                            size: 50.0,
+                          )
+                        : CustomButton(ontap: registration, text: 'Register'),
+                  ),
+                  SizedBox(height: 15),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Already have an account ?',
+                        style: TextStyle(color: Colors.black, fontSize: 18),
+                      ),
+                      TextButton(
+                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Login',
+                          style: TextStyle(color: Colors.black, fontSize: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

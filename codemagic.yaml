@@ -12,9 +12,28 @@ workflows:
           rm -rf ios/Runner.xcworkspace/xcshareddata/swiftpm/
       - name: Flutter pub get
         script: flutter packages pub get
+      - name: Fix Deployment Targets (Podfile & Xcode Project)
+        script: |
+          # تعديل ملف الـ Podfile لتحديد إصدار 15.0 بشكل صريح للكوكابودز
+          python3 -c "
+          with open('ios/Podfile', 'r') as f:
+              lines = f.readlines()
+          updated = False
+          for i, line in enumerate(lines):
+              if 'platform :ios' in line:
+                  lines[i] = \"platform :ios, '15.0'\n\"
+                  updated = True
+                  break
+          if not updated:
+              lines.insert(0, \"platform :ios, '15.0'\n\")
+          with open('ios/Podfile', 'w') as f:
+              f.writelines(lines)
+          "
+          
+          # تعديل الـ project.pbxproj ليتوافق مع إصدار 15.0
+          sed -i '' 's/IPHONEOS_DEPLOYMENT_TARGET = 13.0;/IPHONEOS_DEPLOYMENT_TARGET = 15.0;/g' ios/Runner.xcodeproj/project.pbxproj
       - name: Inject Dummy Development Team & Bypass Signing
         script: |
-          # إعدادات تخطي التوقيع الرقمي لجهاز حقيقي
           echo "DEVELOPMENT_TEAM = 1A2B3C4D5E" >> ios/Runner/Release.xcconfig
           echo "CODE_SIGNING_ALLOWED = NO" >> ios/Runner/Release.xcconfig
           echo "CODE_SIGNING_REQUIRED = NO" >> ios/Runner/Release.xcconfig

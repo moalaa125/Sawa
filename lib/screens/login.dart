@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                         fontFamily: 'Pacifico',
                       ),
                     ),
-                    SizedBox(height: 70.h),
+                    SizedBox(height: 80.h),
                   ],
                 ),
               ),
@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
                     'Welcome back',
                     style: TextStyle(color: Colors.black, fontSize: 20.sp),
                   ),
-                  SizedBox(height: 30.h),
+                  SizedBox(height: 10.h),
                   CustomTextFiled(
                     keyBoardType: TextInputType.emailAddress,
                     validator: (value) {
@@ -161,9 +161,10 @@ class _LoginPageState extends State<LoginPage> {
                   SizedBox(height: 20.h),
                   Center(
                     child: CustomTextButton(
-                      textStyle: TextStyle(color: Colors.black, fontSize: 18.sp),
+                      textStyle: TextStyle(color: Colors.black, fontSize: 18.sp , fontWeight: FontWeight.bold),
                       fontWeight: FontWeight.normal,
                       text: 'Forget Password',
+                      
                       onPressed: () {
                         Navigator.of(
                           context,

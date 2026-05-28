@@ -99,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
           'SAWA Chat',
           style: TextStyle(
             color: kSecoundColor,
-            fontSize: 25.sp,
+            fontSize: 20.sp,
             fontFamily: 'Pacifico',
           ),
         ),
@@ -129,7 +129,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               'Create account',
                               style: TextStyle(
                                 color: kSecoundColor,
-                                fontSize: 35.sp,
+                                fontSize: 30.sp,
                                 fontFamily: 'amara',
                               ),
                             ),
@@ -171,7 +171,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                     obscureText: false,
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 10.h),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
@@ -196,7 +196,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                     obscureText: false,
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 10.h),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(
@@ -221,7 +221,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     hintText: 'Password',
                     obscureText: true,
                   ),
-                  SizedBox(height: 15.h),
+                  SizedBox(height: 10.h),
                   Padding(
                     padding: const EdgeInsets.only(left: 15),
                     child: Text(

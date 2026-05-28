@@ -27,7 +27,7 @@ class CustomTextFiled extends StatelessWidget {
     final borderSide = BorderSide.none;
 
     return Padding(
-      padding: EdgeInsets.only(left: 10.w, top: 10.h, right: 10.w, bottom: 5.h),
+      padding: EdgeInsets.only(left: 15.w, top: 10.h, right: 15.w, bottom: 5.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -36,7 +36,7 @@ class CustomTextFiled extends StatelessWidget {
             controller: controller,
             keyboardType: keyBoardType,
             validator: validator,
-            style: TextStyle(color: Colors.black, fontSize: 18.sp),
+            style: TextStyle(color: Colors.black, fontSize: 15.sp),
             obscureText: obscureText,
             onChanged: onChanged,
             decoration: InputDecoration(

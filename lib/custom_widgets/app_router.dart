@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 Route sharedAxisRoute(Widget page, {Object? arguments}) {
   return PageRouteBuilder(
     settings: RouteSettings(arguments: arguments),
-    transitionDuration: const Duration(milliseconds: 600),
+    transitionDuration: const Duration(milliseconds: 350),
     pageBuilder: (context, animation, secondaryAnimation) => page,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       return SharedAxisTransition(

@@ -20,6 +20,7 @@ dependencies:
   flutter_screenutil: ^5.9.3
   animations: ^2.2.0
   liquid_glass_renderer: ^0.2.0-dev.4
+  flutter_launcher_icons: ^0.14.4
 
 dev_dependencies:
   flutter_test:
@@ -42,3 +43,10 @@ flutter:
     - family: amara
       fonts:
         - asset: assets/fonts/Amarante-Regular.ttf
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/app_icon.png"
+  background_color: "#FFFFFF" 
+  remove_alpha_ios: true

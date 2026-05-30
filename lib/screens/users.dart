@@ -30,34 +30,48 @@ class _UsersScreenState extends State<UsersScreen> {
     final String? myEmail = FirebaseAuth.instance.currentUser?.email;
 
     return Scaffold(
-      bottomNavigationBar: GNav(
-        rippleColor: Colors.grey[300]!,
-        hoverColor: Colors.grey[100]!,
-        gap: 4,
-        activeColor: kSecoundColor,
-        iconSize: 24.sp,
-        duration: Duration(milliseconds: 400),
-        color: Colors.black,
-        tabBackgroundColor: Colors.grey[200]!,
-        backgroundColor: Colors.white,
-        tabs: [
-          GButton(icon: Icons.home, text: 'Home', onPressed: () {}),
-          GButton(icon: Icons.search, text: 'Search', onPressed: () {}),
-          GButton(icon: Icons.request_page, text: 'Requests'),
-          GButton(icon: Icons.person, text: 'Profile'),
-        ],
-        selectedIndex: _currentIndex,
-        onTabChange: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(color: Colors.grey.shade300, width: 0.2.w),
+          ),
+        ),
+        child: GNav(
+          padding: EdgeInsets.only(
+            bottom: 22.h,
+            left: 25.w,
+            right: 20.w,
+            top: 20.h,
+          ),
+          rippleColor: Colors.grey[300]!,
+          hoverColor: Colors.grey[100]!,
+          gap: 4.w,
+          activeColor: kSecoundColor,
+          iconSize: 24.sp,
+          duration: Duration(milliseconds: 400),
+          color: Colors.grey[600],
+          tabBackgroundColor: Colors.grey[200]!,
+          backgroundColor: Colors.white,
+          tabs: [
+            GButton(icon: Icons.home, text: 'Home',),
+            GButton(icon: Icons.search, text: 'Search', ),
+            GButton(icon: Icons.help, text: 'Requests'),
+            GButton(icon: Icons.person, text: 'Profile'),
+          ],
+          selectedIndex: _currentIndex,
+          onTabChange: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+          },
+        ),
       ),
       backgroundColor: Colors.white,
       appBar: AppBar(
         actions: [
           IconButton(
-            icon: Icon(Icons.logout, color: kSecoundColor),
+            icon: Icon(Icons.logout, color: kSecoundColor, size: 24.sp),
             onPressed: () async {
               await FirebaseAuth.instance.signOut();
               Navigator.of(
@@ -80,7 +94,6 @@ class _UsersScreenState extends State<UsersScreen> {
           ),
         ),
       ),
-
       body: _getSelectedPage(myEmail),
     );
   }
@@ -119,56 +132,73 @@ class _UsersScreenState extends State<UsersScreen> {
 
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
-                child: Card(
-                  elevation: 0,
-                  color: const Color(0xFFF0F0F0),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15.r),
-                  ),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: kSecoundColor,
-                      child: Text(
-                        displayName[0].toUpperCase(),
-                        style: const TextStyle(color: Colors.white),
+                child: Column(
+                  children: [
+                    Card(
+                      elevation: 0,
+                      color: const Color(0xFFF0F0F0),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.r),
                       ),
-                    ),
-                    title: Text(
-                      displayName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: kSecoundColor,
-                      ),
-                    ),
-                    subtitle: Text(otherUserEmail),
-                    trailing: Icon(
-                      Icons.send_rounded,
-                      color: kSecoundColor,
-                      size: 20.sp,
-                    ),
-                    onTap: () {
-                      String roomId = generateChatId(myEmail!, otherUserEmail);
-
-                      Navigator.of(context).push(
-                        sharedAxisRoute(
-                          ChatScreen(),
-                          arguments: {
-                            'email': myEmail,
-                            'roomId': roomId,
-                            'otherUserName': displayName,
-                          },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 20.r,
+                          backgroundColor: kSecoundColor,
+                          child: Text(
+                            displayName[0].toUpperCase(),
+                            style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                          ),
                         ),
-                      );
-                    },
-                  ),
+                        title: Text(
+                          displayName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: kSecoundColor,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                        subtitle: Text(
+                          otherUserEmail,
+                          style: TextStyle(fontSize: 14.sp),
+                        ),
+                        trailing: Icon(
+                          Icons.send_rounded,
+                          color: kSecoundColor,
+                          size: 20.sp,
+                        ),
+                        onTap: () {
+                          String roomId = generateChatId(myEmail!, otherUserEmail);
+                    
+                          Navigator.of(context).push(
+                            sharedAxisRoute(
+                              ChatScreen(),
+                              arguments: {
+                                'email': myEmail,
+                                'roomId': roomId,
+                                'otherUserName': displayName,
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    
+                  ],
                 ),
               );
             },
           );
         } else if (snapshot.hasError) {
-          return const Center(child: Text("Something went wrong"));
+          return Center(
+            child: Text(
+              "Something went wrong",
+              style: TextStyle(fontSize: 16.sp),
+            ),
+          );
         } else {
-          return Center(child: SpinKitWave(color: kSecoundColor, size: 50.0));
+          return Center(
+            child: SpinKitWave(color: kSecoundColor, size: 50.w),
+          );
         }
       },
     );

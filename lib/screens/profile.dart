@@ -6,9 +6,22 @@ class Profile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
-      appBar: AppBar(
-        title: Text('Profile'),
-      ),
+      body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
+        children: [
+          Center(
+            child: Column(
+              children: [
+                CircleAvatar(
+                  backgroundColor: Colors.grey[300],
+                  radius: 50 , 
+                  backgroundImage: AssetImage('assets/images/mo.JPG'),
+                )
+              ]
+            )
+          )
+        ]
+      )
     );
   }
 }

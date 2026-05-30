@@ -16,7 +16,6 @@ class SendRequest extends StatelessWidget {
           SizedBox(height: 100.h),
           Center(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Container(
                   height: 100.h,

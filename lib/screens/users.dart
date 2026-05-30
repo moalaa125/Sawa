@@ -54,8 +54,8 @@ class _UsersScreenState extends State<UsersScreen> {
           tabBackgroundColor: Colors.grey[200]!,
           backgroundColor: Colors.white,
           tabs: [
-            GButton(icon: Icons.home, text: 'Home',),
-            GButton(icon: Icons.search, text: 'Search', ),
+            GButton(icon: Icons.home, text: 'Home'),
+            GButton(icon: Icons.search, text: 'Search'),
             GButton(icon: Icons.help, text: 'Requests'),
             GButton(icon: Icons.person, text: 'Profile'),
           ],
@@ -146,7 +146,10 @@ class _UsersScreenState extends State<UsersScreen> {
                           backgroundColor: kSecoundColor,
                           child: Text(
                             displayName[0].toUpperCase(),
-                            style: TextStyle(color: Colors.white, fontSize: 16.sp),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                            ),
                           ),
                         ),
                         title: Text(
@@ -167,8 +170,11 @@ class _UsersScreenState extends State<UsersScreen> {
                           size: 20.sp,
                         ),
                         onTap: () {
-                          String roomId = generateChatId(myEmail!, otherUserEmail);
-                    
+                          String roomId = generateChatId(
+                            myEmail!,
+                            otherUserEmail,
+                          );
+
                           Navigator.of(context).push(
                             sharedAxisRoute(
                               ChatScreen(),
@@ -182,7 +188,6 @@ class _UsersScreenState extends State<UsersScreen> {
                         },
                       ),
                     ),
-                    
                   ],
                 ),
               );

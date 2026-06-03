@@ -24,50 +24,44 @@ class _SendRequestState extends State<SendRequest> {
     final String targetEmail = _emailController.text.trim();
 
     if (targetEmail.isEmpty) {
-      showSnackBar(context, 'الرجاء إدخال البريد الإلكتروني أولاً');
+      showSnackBar(context, 'please enter a valid email');
       return;
     }
 
     setState(() => _isLoading = true);
 
     try {
-      // 1. جلب بيانات المستخدم الحالي (الراسل) من الـ Firebase Auth والـ Firestore
       final currentUser = FirebaseAuth.instance.currentUser;
       if (currentUser == null) return;
 
-      // جلب اسم المستخدم الحالي من مستنده في Firestore (تأكد أن حقل الاسم اسمه 'name' أو 'username' لديك)
       final currentUserDoc = await FirebaseFirestore.instance
           .collection('users')
           .doc(currentUser.uid)
           .get();
       final String currentUserName =
-          currentUserDoc.data()?['name'] ?? 'Unknown';
+          currentUserDoc.data()?['userName'] ?? 'Unknown';
 
-      // 2. البحث عن الصديق (المستقبل) في Firestore باستخدام الإيميل المكتوب
       final querySnapshot = await FirebaseFirestore.instance
           .collection('users')
           .where('email', isEqualTo: targetEmail)
           .get();
 
       if (querySnapshot.docs.isEmpty) {
-        if (mounted)
-          showSnackBar(context, 'هذا البريد الإلكتروني غير مسجل بالتطبيق');
+        if (mounted) showSnackBar(context, 'this is not a user in the app !');
         setState(() => _isLoading = false);
         return;
       }
 
-      // الحصول على مستند الصديق
       final targetUserDoc = querySnapshot.docs.first;
       final String targetUserId = targetUserDoc.id;
 
-      // منع المستخدم من إرسال طلب صداقة لنفسه
       if (targetUserId == currentUser.uid) {
-        if (mounted) showSnackBar(context, 'لا يمكنك إرسال طلب صداقة لنفسك!');
+        if (mounted)
+          showSnackBar(context, 'you cant send a friend request to yourself');
         setState(() => _isLoading = false);
         return;
       }
 
-      // 3. استدعاء الدالة الخاصة بك لإرسال الطلب عبر الـ Service
       final FriendRequestService requestService = FriendRequestService();
       await requestService.sendFriendRequest(
         currentUserId: currentUser.uid,
@@ -76,11 +70,11 @@ class _SendRequestState extends State<SendRequest> {
       );
 
       if (mounted) {
-        showSnackBar(context, 'تم إرسال طلب الصداقة بنجاح!');
-        _emailController.clear(); // مسح الخانة بعد النجاح
+        showSnackBar(context, 'the request has been sent successfully');
+        _emailController.clear();
       }
     } catch (e) {
-      if (mounted) showSnackBar(context, 'حدث خطأ ما: $e');
+      if (mounted) showSnackBar(context, ' $e  : Something went wrong');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -130,7 +124,7 @@ class _SendRequestState extends State<SendRequest> {
                 SizedBox(height: 20.h),
                 _isLoading
                     ? const Center(child: CircularProgressIndicator())
-                    : CustomButton(text: 'Send' , ontap: _handleSendRequest),
+                    : CustomButton(text: 'Send', ontap: _handleSendRequest),
               ],
             ),
           ),

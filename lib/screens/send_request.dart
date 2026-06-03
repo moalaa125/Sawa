@@ -52,6 +52,13 @@ class _SendRequestState extends State<SendRequest> {
         return;
       }
 
+      // Safeguard: Prevent sending request to a "ghost" account if duplicates exist
+      if (querySnapshot.docs.length > 1) {
+        if (mounted) showSnackBar(context, 'Database error: Multiple accounts found for this email!');
+        setState(() => _isLoading = false);
+        return;
+      }
+
       final targetUserDoc = querySnapshot.docs.first;
       final String targetUserId = targetUserDoc.id;
 

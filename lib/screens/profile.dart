@@ -1,3 +1,4 @@
+import 'package:chat_app/constant.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {
@@ -5,7 +6,9 @@ class Profile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
+    return Scaffold(
+      backgroundColor: kPrimaryColor,
+
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 20.0),
         children: [
@@ -14,14 +17,14 @@ class Profile extends StatelessWidget {
               children: [
                 CircleAvatar(
                   backgroundColor: Colors.grey[300],
-                  radius: 50 , 
+                  radius: 50,
                   backgroundImage: AssetImage('assets/images/mo.JPG'),
-                )
-              ]
-            )
-          )
-        ]
-      )
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

@@ -1,16 +1,26 @@
 import 'package:chat_app/custom_widgets/custom_button.dart';
 import 'package:chat_app/custom_widgets/custom_text_filed.dart';
+// import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/constant.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/cupertino.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
+// import 'cloud_firestore/cloud_firestore.dart';
+
+
 
 class SendRequest extends StatelessWidget {
   const SendRequest({super.key});
 
+
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kPrimaryColor,
       body: ListView(
         children: [
           SizedBox(height: 100.h),

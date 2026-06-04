@@ -6,12 +6,15 @@ const kAppBarColor = Color.fromARGB(255, 186, 215, 238);
 const kPrimaryGradient = LinearGradient(
   colors: [
      Color.fromARGB(255, 186, 215, 238),
-    Colors.white
+    Color.fromARGB(255, 255, 255, 255)
   ],
   begin: Alignment.topCenter,
   end: Alignment.bottomRight,
 );
 const kSecoundColor = Color(0xFF06355C);
+const kReceiverBubbleColor = Color(0XFFF0F0F0);
+const kHintTextColor = Colors.grey;
+
 const kMessagesCollection = 'messages';
 const kMessageField = 'messages';
 const kCreatedAt = 'createdAt';
@@ -21,5 +24,3 @@ String generateChatId(String email1, String email2) {
   emails.sort();
   return "${emails[0]}_${emails[1]}";
 }
-
-

@@ -5,6 +5,7 @@ import 'package:chat_app/screens/resetPassword.dart';
 import 'package:chat_app/screens/users.dart';
 import 'package:chat_app/screens/verification_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:chat_app/constant.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
           },
           title: 'Flutter Demo',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            colorScheme: ColorScheme.fromSeed(seedColor: kSecoundColor),
           ),
           initialRoute: isLoggedIn ? 'usersScreen' : 'loginPage',
         );

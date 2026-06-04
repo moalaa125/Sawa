@@ -74,9 +74,9 @@ class _ChatScreenState extends State<ChatScreen> {
             );
           }
           return Scaffold(
-            backgroundColor: kPrimaryColor,
+            backgroundColor: Colors.transparent,
             appBar: AppBar(
-              backgroundColor: Colors.white,
+              backgroundColor: kAppBarColor,
               shadowColor: Colors.black,
               elevation: 1,
               surfaceTintColor: Colors.transparent,
@@ -93,132 +93,137 @@ class _ChatScreenState extends State<ChatScreen> {
                 ),
               ),
             ),
-            body: Column(
-              children: [
-                Expanded(
-                  child: messageList.isEmpty
-                      ? Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.chat_bubble_outline,
-                                size: 60.sp,
-                                color: Colors.grey.shade300,
-                              ),
-                              SizedBox(height: 16.h),
-                              Text(
-                                'No messages yet, say hello! 👋',
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 16.sp,
+            body: Container(
+              width: double.infinity,
+              height: double.infinity,
+              decoration: BoxDecoration(gradient: kPrimaryGradient),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: messageList.isEmpty
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.chat_bubble_outline,
+                                  size: 60.sp,
+                                  color: Colors.grey.shade300,
                                 ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : ListView.builder(
-                          keyboardDismissBehavior:
-                              ScrollViewKeyboardDismissBehavior.onDrag,
-                          reverse: true,
-                          controller: _controller,
-                          itemCount: messageList.length,
-                          itemBuilder: (context, index) {
-                            return messageList[index].id == email
-                                ? Chatbubble(
-                                    txtColor: Colors.white,
-                                    message: messageList[index],
-                                    senderOrRecevier: Alignment.centerRight,
-                                    paddingForBubble: EdgeInsets.only(
-                                      left: 20,
-                                      top: 16,
-                                      bottom: 16,
-                                      right: 20,
-                                    ),
-                                    bubbleColor: Color(0XFF06355C),
-                                    borderRadiusGeometry: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                      bottomLeft: Radius.circular(20),
-                                    ),
-                                  )
-                                : Chatbubble(
-                                    txtColor: Colors.black,
-                                    paddingForBubble: EdgeInsets.only(
-                                      left: 20,
-                                      top: 16,
-                                      bottom: 16,
-                                      right: 20,
-                                    ),
-                                    bubbleColor: Color(0XFFF0F0F0),
-                                    borderRadiusGeometry: BorderRadius.only(
-                                      topLeft: Radius.circular(20),
-                                      topRight: Radius.circular(20),
-                                      bottomRight: Radius.circular(20),
-                                    ),
-                                    senderOrRecevier: Alignment.centerLeft,
-                                    message: messageList[index],
-                                  );
-                          },
-                        ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(20.r),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: const Color(0XFFF0F0F0),
-                            borderRadius: BorderRadius.circular(30.r),
-                          ),
-                          child: TextField(
-                            controller: controller,
-                            onSubmitted: (_) {
-                              sendMessage(email, messages);
+                                SizedBox(height: 16.h),
+                                Text(
+                                  'No messages yet, say hello! 👋',
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 16.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : ListView.builder(
+                            keyboardDismissBehavior:
+                                ScrollViewKeyboardDismissBehavior.onDrag,
+                            reverse: true,
+                            controller: _controller,
+                            itemCount: messageList.length,
+                            itemBuilder: (context, index) {
+                              return messageList[index].id == email
+                                  ? Chatbubble(
+                                      txtColor: Colors.white,
+                                      message: messageList[index],
+                                      senderOrRecevier: Alignment.centerRight,
+                                      paddingForBubble: EdgeInsets.only(
+                                        left: 20,
+                                        top: 16,
+                                        bottom: 16,
+                                        right: 20,
+                                      ),
+                                      bubbleColor: Color(0XFF06355C),
+                                      borderRadiusGeometry: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomLeft: Radius.circular(20),
+                                      ),
+                                    )
+                                  : Chatbubble(
+                                      txtColor: Colors.black,
+                                      paddingForBubble: EdgeInsets.only(
+                                        left: 20,
+                                        top: 16,
+                                        bottom: 16,
+                                        right: 20,
+                                      ),
+                                      bubbleColor: Color(0XFFF0F0F0),
+                                      borderRadiusGeometry: BorderRadius.only(
+                                        topLeft: Radius.circular(20),
+                                        topRight: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                      ),
+                                      senderOrRecevier: Alignment.centerLeft,
+                                      message: messageList[index],
+                                    );
                             },
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 16.sp,
-                            ),
-                            decoration: InputDecoration(
-                              hintText: 'Type a message...',
-                              hintStyle: TextStyle(
-                                color: Colors.grey,
-                                fontSize: 14.sp,
-                              ),
-                              contentPadding: EdgeInsets.symmetric(
-                                horizontal: 20.w,
-                                vertical: 18.h,
-                              ),
-                              border: InputBorder.none,
-                            ),
                           ),
-                        ),
-                      ),
-                      SizedBox(width: 12.w),
-                      GestureDetector(
-                        onTap: () {
-                          sendMessage(email, messages);
-                        },
-                        child: Container(
-                          height: 58.h,
-                          width: 58.w,
-                          decoration: BoxDecoration(
-                            color: const Color(0XFF06355C),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Icon(
-                            Icons.arrow_forward,
-                            color: Colors.white,
-                            size: 24.sp,
-                          ),
-                        ),
-                      ),
-                    ],
                   ),
-                ),
-              ],
+                  Padding(
+                    padding: EdgeInsets.all(20.r),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 255, 255, 255),
+                              borderRadius: BorderRadius.circular(30.r),
+                            ),
+                            child: TextField(
+                              controller: controller,
+                              onSubmitted: (_) {
+                                sendMessage(email, messages);
+                              },
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16.sp,
+                              ),
+                              decoration: InputDecoration(
+                                hintText: 'Type a message...',
+                                hintStyle: TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 14.sp,
+                                ),
+                                contentPadding: EdgeInsets.symmetric(
+                                  horizontal: 20.w,
+                                  vertical: 18.h,
+                                ),
+                                border: InputBorder.none,
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 12.w),
+                        GestureDetector(
+                          onTap: () {
+                            sendMessage(email, messages);
+                          },
+                          child: Container(
+                            height: 58.h,
+                            width: 58.w,
+                            decoration: BoxDecoration(
+                              color: const Color(0XFF06355C),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.arrow_forward,
+                              color: Colors.white,
+                              size: 24.sp,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           );
         } else if (snapshot.hasError) {

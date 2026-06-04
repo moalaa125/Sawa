@@ -8,7 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:chat_app/custom_widgets/custom_loading_indicator.dart';
 
 class VerificationScreen extends StatefulWidget {
   const VerificationScreen({super.key});
@@ -112,7 +112,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     textAlign: TextAlign.center,
 
                     style: TextStyle(
-                      color: Colors.black,
+                      color: kSecoundColor,
                       fontSize: 34.sp,
                       fontFamily: 'amara',
                     ),
@@ -123,7 +123,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                     textAlign: TextAlign.center,
 
                     style: TextStyle(
-                      color: Colors.black54,
+                      color: kSecoundColor.withOpacity(0.6),
                       fontSize: 16.sp,
                       height: 1.6,
                     ),
@@ -138,10 +138,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                           height: 56.h,
 
                           child: Center(
-                            child: SpinKitDancingSquare(
-                              color: Colors.black,
-                              size: 50.0.sp,
-                            ),
+                            child: CustomLoadingIndicator(),
                           ),
                         )
                       : CustomButton(

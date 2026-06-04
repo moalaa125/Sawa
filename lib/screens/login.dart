@@ -11,8 +11,8 @@ import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:chat_app/custom_widgets/custom_loading_indicator.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -87,7 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                 Center(
                   child: Column(
                     children: [
-                      SizedBox(height: 50.h),
+                      SizedBox(height: 60.h),
                       Container(
                         height: 65.h,
                         width: 70.w,
@@ -110,18 +110,20 @@ class _LoginPageState extends State<LoginPage> {
                           fontFamily: 'amara',
                         ),
                       ),
-                      SizedBox(height: 80.h),
+                      SizedBox(height: 90.h),
                     ],
                   ),
                 ),
           
                 Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
+                    
                     Text(
                       'Welcome back',
-                      style: TextStyle(color: Colors.black, fontSize: 20.sp),
+                      style: TextStyle(color: kSecoundColor, fontSize: 20.sp),
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 30.h),
                     CustomTextFiled(
                       keyBoardType: TextInputType.emailAddress,
                       validator: (value) {
@@ -156,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: EdgeInsets.all(8.0.r),
                       child: isLoading
-                          ? SpinKitDancingSquare(color: Colors.black, size: 50.0.sp)
+                          ? CustomLoadingIndicator()
                           : CustomButton(
                               ontap: () {
                                 signIn();
@@ -167,7 +169,7 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 20.h),
                     Center(
                       child: CustomTextButton(
-                        textStyle: TextStyle(color: Colors.black, fontSize: 18.sp , fontWeight: FontWeight.bold),
+                        textStyle: TextStyle(color: kSecoundColor, fontSize: 18.sp , fontWeight: FontWeight.bold),
                         fontWeight: FontWeight.normal,
                         text: 'Forget Password',
                         
@@ -183,12 +185,12 @@ class _LoginPageState extends State<LoginPage> {
                       children: [
                         Text(
                           'Dont have an account?',
-                          style: TextStyle(color: Colors.black, fontSize: 18.sp),
+                          style: TextStyle(color: kSecoundColor, fontSize: 18.sp),
                         ),
                         SizedBox(width: 5.w),
                         CustomTextButton(
                           textStyle: TextStyle(
-                            color: Colors.black,
+                            color: kSecoundColor,
                             fontSize: 18.sp,
                           ),
                           fontWeight: FontWeight.w500,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 const kPrimaryColor = Color.fromARGB(255, 231, 227, 227);
+const kAppBarColor = Color.fromARGB(255, 186, 215, 238);
 
 const kPrimaryGradient = LinearGradient(
   colors: [
@@ -20,3 +21,5 @@ String generateChatId(String email1, String email2) {
   emails.sort();
   return "${emails[0]}_${emails[1]}";
 }
+
+

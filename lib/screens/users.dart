@@ -9,7 +9,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:chat_app/screens/login.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class UsersScreen extends StatefulWidget {
@@ -68,10 +67,8 @@ class _UsersScreenState extends State<UsersScreen> {
         ),
       ),
       appBar: AppBar(
-
-        backgroundColor: Color.fromARGB(255, 186, 215, 238),
+        backgroundColor: kAppBarColor,
         elevation: 1,
-        // shadowColor: Colors.black,
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         title: Text(
@@ -159,7 +156,7 @@ class _UsersScreenState extends State<UsersScreen> {
                           otherUserEmail,
                           style: TextStyle(fontSize: 14.sp),
                         ),
-                     
+
                         onTap: () {
                           String roomId = generateChatId(
                             myEmail!,
@@ -180,7 +177,6 @@ class _UsersScreenState extends State<UsersScreen> {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                   
                   ],
                 ),
               );

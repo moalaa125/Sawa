@@ -46,9 +46,6 @@ flutter:
     - family: amara
       fonts:
         - asset: assets/fonts/Amarante-Regular.ttf
-    - family: test
-      fonts:
-        - asset: assets/fonts/test.ttf
 
 flutter_launcher_icons:
   android: "launcher_icon"

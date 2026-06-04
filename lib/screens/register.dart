@@ -1,14 +1,14 @@
 import 'package:chat_app/constant.dart';
 import 'package:chat_app/custom_widgets/app_router.dart';
 import 'package:chat_app/custom_widgets/custom_button.dart';
+import 'package:chat_app/custom_widgets/custom_loading_indicator.dart';
 import 'package:chat_app/screens/verification_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:chat_app/custom_widgets/custom_text_filed.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:email_validator/email_validator.dart';
-import '../custom_widgets/show_snack_bar.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:chat_app/custom_widgets/show_snack_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterPage extends StatefulWidget {
@@ -38,7 +38,7 @@ class _RegisterPageState extends State<RegisterPage> {
         await registerationLogic();
          if (!mounted) return;
 
-        Navigator.of(context).push(sharedAxisRoute(VerificationScreen()));
+        Navigator.of(context).push(sharedAxisRoute(const VerificationScreen()));
 
         showSnackBar(context, 'check your mail check (spam)!');
       } on FirebaseAuthException catch (e) {
@@ -139,6 +139,7 @@ class _RegisterPageState extends State<RegisterPage> {
                               ),
                               Text(
                                 'Enter your details to start your journy with us.',
+                              style: TextStyle(color: kSecoundColor.withOpacity(0.8), fontSize: 16.sp),
                               ),
                             ],
                           ),
@@ -156,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         'User name ',
-                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      style: TextStyle(color: kSecoundColor, fontSize: 20.sp),
                       ),
                     ),
                     CustomTextFiled(
@@ -180,7 +181,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         'Email',
-                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      style: TextStyle(color: kSecoundColor, fontSize: 20.sp),
                       ),
                     ),
           
@@ -205,7 +206,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         'password',
-                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      style: TextStyle(color: kSecoundColor, fontSize: 20.sp),
                       ),
                     ),
                     CustomTextFiled(
@@ -230,7 +231,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
                         'Confirm Password',
-                        style: TextStyle(color: Colors.black, fontSize: 20),
+                      style: TextStyle(color: kSecoundColor, fontSize: 20.sp),
                       ),
                     ),
                     SizedBox(height: 3.h),
@@ -249,25 +250,26 @@ class _RegisterPageState extends State<RegisterPage> {
                         return null;
                       },
                       hintText: 'Re-Enter The Password',
-                      onChanged: null,
+                  onChanged: (data) {
+                    confirmPass = data;
+                  },
                       obscureText: true,
                     ),
-                    SizedBox(height: 30),
+                SizedBox(height: 30.h),
                     Center(
                       child: isLoading
-                          ? const SpinKitDancingSquare(
-                              color: Colors.black,
-                              size: 50.0,
-                            )
-                          : CustomButton(ontap: registration, text: 'Register'),
+                      ? CustomLoadingIndicator()
+                      : CustomButton(
+                          ontap: () { registration(); }, 
+                          text: 'Register'),
                     ),
-                    SizedBox(height: 15),
+                SizedBox(height: 15.h),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           'Already have an account ?',
-                          style: TextStyle(color: Colors.black, fontSize: 18),
+                          style: TextStyle(color: kSecoundColor, fontSize: 18.sp),
                         ),
                         TextButton(
                           style: TextButton.styleFrom(padding: EdgeInsets.zero),
@@ -276,7 +278,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           },
                           child: Text(
                             'Login',
-                            style: TextStyle(color: Colors.black, fontSize: 20),
+                            style: TextStyle(color: kSecoundColor, fontSize: 20.sp),
                           ),
                         ),
                       ],

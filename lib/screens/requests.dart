@@ -1,4 +1,3 @@
-import 'package:chat_app/constant.dart';
 import 'package:chat_app/services/acceptFriendRequest.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -12,12 +11,13 @@ class Requests extends StatelessWidget {
     final String currentUserId = FirebaseAuth.instance.currentUser?.uid ?? '';
 
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Colors.transparent,
       body: StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
             .doc(currentUserId)
             .collection('friend_requests')
+            .where('status', isEqualTo: 'pending')
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
@@ -29,18 +29,13 @@ class Requests extends StatelessWidget {
             );
           }
 
-          if (!snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(color: Colors.white),
             );
           }
 
-          var allDocs = snapshot.data!.docs;
-
-          var pendingRequests = allDocs.where((doc) {
-            var data = doc.data() as Map<String, dynamic>;
-            return data['status'] == 'pending';
-          }).toList();
+          var pendingRequests = snapshot.data?.docs ?? [];
 
           if (pendingRequests.isEmpty) {
             return Center(
@@ -67,7 +62,7 @@ class Requests extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     Text(
-                      'Total Documents: ${allDocs.length}',
+                      'Total Pending Documents: ${pendingRequests.length}',
                       style: const TextStyle(
                         color: Colors.green,
                         fontSize: 14,
@@ -91,7 +86,7 @@ class Requests extends StatelessWidget {
 
               return Container(
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Colors.white.withValues(alpha: 0.3),
                   borderRadius: BorderRadius.circular(10),
                 ),
                 margin: const EdgeInsets.all(10),
@@ -125,7 +120,7 @@ class Requests extends StatelessWidget {
                       ),
                       const SizedBox(width: 10),
                       Container(
-                          decoration: BoxDecoration(
+                        decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(50),
                         ),

@@ -68,17 +68,7 @@ class _UsersScreenState extends State<UsersScreen> {
         ),
       ),
       appBar: AppBar(
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout, color: kSecoundColor, size: 24.sp),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              Navigator.of(
-                context,
-              ).pushReplacement(sharedAxisRoute(LoginPage()));
-            },
-          ),
-        ],
+
         backgroundColor: Color.fromARGB(255, 186, 215, 238),
         elevation: 1,
         // shadowColor: Colors.black,

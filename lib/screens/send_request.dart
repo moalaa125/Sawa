@@ -94,7 +94,7 @@ class _SendRequestState extends State<SendRequest> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Colors.transparent,
       body: ListView(
         children: [
           SizedBox(height: 100.h),

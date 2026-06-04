@@ -43,7 +43,7 @@ class CustomTextFiled extends StatelessWidget {
               hintText: hintText,
               hintStyle: const TextStyle(color: Color(0xFF8E8E93)),
               filled: true,
-              fillColor: const Color(0xFFE9E9EB),
+              fillColor: const Color.fromARGB(255, 255, 255, 255),
               contentPadding: EdgeInsets.symmetric(
                 vertical: 13.h,
                 horizontal: 20.w,

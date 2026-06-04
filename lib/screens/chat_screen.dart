@@ -154,7 +154,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                         bottom: 16,
                                         right: 20,
                                       ),
-                                      bubbleColor: Color(0XFFF0F0F0),
+                                      bubbleColor: Color.fromARGB(255, 255, 255, 255),
                                       borderRadiusGeometry: BorderRadius.only(
                                         topLeft: Radius.circular(20),
                                         topRight: Radius.circular(20),

@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class FriendRequestService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // Send friend request
   Future<void> sendFriendRequest({
     required String currentUserId,
     required String currentUserName,

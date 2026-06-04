@@ -30,6 +30,7 @@ class _UsersScreenState extends State<UsersScreen> {
     final String? myEmail = FirebaseAuth.instance.currentUser?.email;
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.white,
@@ -67,7 +68,6 @@ class _UsersScreenState extends State<UsersScreen> {
           },
         ),
       ),
-      backgroundColor: Colors.white,
       appBar: AppBar(
         actions: [
           IconButton(
@@ -80,9 +80,9 @@ class _UsersScreenState extends State<UsersScreen> {
             },
           ),
         ],
-        backgroundColor: Colors.white,
+        backgroundColor: Color.fromARGB(255, 186, 215, 238),
         elevation: 1,
-        shadowColor: Colors.black,
+        // shadowColor: Colors.black,
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         title: Text(
@@ -94,7 +94,12 @@ class _UsersScreenState extends State<UsersScreen> {
           ),
         ),
       ),
-      body: _getSelectedPage(myEmail),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(gradient: kPrimaryGradient),
+        child: _getSelectedPage(myEmail),
+      ),
     );
   }
 
@@ -133,10 +138,67 @@ class _UsersScreenState extends State<UsersScreen> {
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 child: Column(
+                  
                   children: [
+                    SizedBox(height: 10.h),
                     Card(
-                      elevation: 0,
-                      color: const Color(0xFFF0F0F0),
+                      elevation: 5,
+                      color: const Color.fromARGB(255, 255, 255, 255),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.r),
+                      ),
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 20.r,
+                          backgroundColor: kSecoundColor,
+                          child: Text(
+                            displayName[0].toUpperCase(),
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.sp,
+                            ),
+                          ),
+                        ),
+                        title: Text(
+                          displayName,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: kSecoundColor,
+                            fontSize: 16.sp,
+                          ),
+                        ),
+                        subtitle: Text(
+                          otherUserEmail,
+                          style: TextStyle(fontSize: 14.sp),
+                        ),
+                        trailing: Icon(
+                          Icons.send_rounded,
+                          color: kSecoundColor,
+                          size: 20.sp,
+                        ),
+                        onTap: () {
+                          String roomId = generateChatId(
+                            myEmail!,
+                            otherUserEmail,
+                          );
+
+                          Navigator.of(context).push(
+                            sharedAxisRoute(
+                              ChatScreen(),
+                              arguments: {
+                                'email': myEmail,
+                                'roomId': roomId,
+                                'otherUserName': displayName,
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                          Card(
+                      elevation: 5,
+                      color: const Color.fromARGB(255, 255, 255, 255),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.r),
                       ),

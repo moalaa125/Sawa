@@ -20,41 +20,43 @@ class _ProfileState extends State<Profile> {
   Future<void> _pickAndUploadImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    
+
     if (pickedFile == null) return;
 
     setState(() => _isUploading = true);
-    
+
     try {
       final user = FirebaseAuth.instance.currentUser;
       if (user == null) return;
 
       File imageFile = File(pickedFile.path);
-      
+
       // Upload to Firebase Storage
       final storageRef = FirebaseStorage.instance
           .ref()
           .child('user_profiles')
           .child('${user.uid}.jpg');
-          
+
       await storageRef.putFile(imageFile);
       final downloadUrl = await storageRef.getDownloadURL();
 
       // Update Firestore user document
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).update({
-        'profileImage': downloadUrl,
-      });
+      await FirebaseFirestore.instance.collection('users').doc(user.uid).update(
+        {'profileImage': downloadUrl},
+      );
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Profile picture updated successfully!')),
+          const SnackBar(
+            content: Text('Profile picture updated successfully!'),
+          ),
         );
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Failed to upload image: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Failed to upload image: $e')));
       }
     } finally {
       if (mounted) setState(() => _isUploading = false);
@@ -66,17 +68,22 @@ class _ProfileState extends State<Profile> {
     final user = FirebaseAuth.instance.currentUser;
 
     return Scaffold(
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Colors.transparent,
       body: StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance.collection('users').doc(user?.uid).snapshots(),
+        stream: FirebaseFirestore.instance
+            .collection('users')
+            .doc(user?.uid)
+            .snapshots(),
         builder: (context, snapshot) {
           String userName = "Loading...";
           String? profileImageUrl;
-          
+
           if (snapshot.hasData && snapshot.data!.exists) {
             var data = snapshot.data!.data() as Map<String, dynamic>;
             userName = data['userName'] ?? 'No Name';
-            profileImageUrl = data.containsKey('profileImage') ? data['profileImage'] : null;
+            profileImageUrl = data.containsKey('profileImage')
+                ? data['profileImage']
+                : null;
           }
 
           return ListView(
@@ -91,15 +98,27 @@ class _ProfileState extends State<Profile> {
                       radius: 60.r,
                       backgroundImage: profileImageUrl != null
                           ? NetworkImage(profileImageUrl)
-                          : const AssetImage('assets/images/mo.JPG') as ImageProvider,
+                          : const AssetImage('assets/images/mo.JPG')
+                                as ImageProvider,
                     ),
                     CircleAvatar(
                       backgroundColor: kSecoundColor,
                       radius: 20.r,
                       child: IconButton(
-                        icon: _isUploading 
-                            ? SizedBox(width: 20.sp, height: 20.sp, child: const CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                            : Icon(Icons.camera_alt, color: Colors.white, size: 20.sp),
+                        icon: _isUploading
+                            ? SizedBox(
+                                width: 20.sp,
+                                height: 20.sp,
+                                child: const CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Icon(
+                                Icons.camera_alt,
+                                color: Colors.white,
+                                size: 20.sp,
+                              ),
                         onPressed: _isUploading ? null : _pickAndUploadImage,
                       ),
                     ),
@@ -110,7 +129,11 @@ class _ProfileState extends State<Profile> {
               Center(
                 child: Text(
                   userName,
-                  style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.bold, color: Colors.black),
+                  style: TextStyle(
+                    fontSize: 26.sp,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
                 ),
               ),
               SizedBox(height: 5.h),
@@ -130,23 +153,40 @@ class _ProfileState extends State<Profile> {
               }, isDestructive: true),
             ],
           );
-        }
+        },
       ),
     );
   }
 
-  Widget _buildProfileOption(IconData icon, String title, VoidCallback onTap, {bool isDestructive = false}) {
+  Widget _buildProfileOption(
+    IconData icon,
+    String title,
+    VoidCallback onTap, {
+    bool isDestructive = false,
+  }) {
     return Card(
       color: const Color(0xFFF0F0F0),
       margin: EdgeInsets.symmetric(vertical: 8.h),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
       child: ListTile(
-        leading: Icon(icon, color: isDestructive ? Colors.red : kSecoundColor, size: 24.sp),
+        leading: Icon(
+          icon,
+          color: isDestructive ? Colors.red : kSecoundColor,
+          size: 24.sp,
+        ),
         title: Text(
           title,
-          style: TextStyle(color: isDestructive ? Colors.red : Colors.black87, fontWeight: FontWeight.bold, fontSize: 16.sp),
+          style: TextStyle(
+            color: isDestructive ? Colors.red : Colors.black87,
+            fontWeight: FontWeight.bold,
+            fontSize: 16.sp,
+          ),
         ),
-        trailing: Icon(Icons.arrow_forward_ios, size: 16.sp, color: Colors.grey),
+        trailing: Icon(
+          Icons.arrow_forward_ios,
+          size: 16.sp,
+          color: Colors.grey,
+        ),
         onTap: onTap,
       ),
     );

@@ -4,7 +4,7 @@ const kPrimaryColor = Color.fromARGB(255, 231, 227, 227);
 
 const kPrimaryGradient = LinearGradient(
   colors: [
-    Color.fromARGB(255, 186, 215, 238),
+     Color.fromARGB(255, 186, 215, 238),
     Colors.white
   ],
   begin: Alignment.topCenter,

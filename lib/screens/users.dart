@@ -6,7 +6,6 @@ import 'package:chat_app/screens/requests.dart';
 import 'package:chat_app/screens/send_request.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,7 +15,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 class UsersScreen extends StatefulWidget {
   static String id = 'usersScreen';
 
-  UsersScreen({super.key});
+  const UsersScreen({super.key});
 
   @override
   State<UsersScreen> createState() => _UsersScreenState();
@@ -89,7 +88,7 @@ class _UsersScreenState extends State<UsersScreen> {
           'SAWA Users',
           style: TextStyle(
             color: kSecoundColor,
-            fontFamily: 'Pacifico',
+            fontFamily: 'amaraa',
             fontSize: 25.sp,
           ),
         ),
@@ -138,12 +137,11 @@ class _UsersScreenState extends State<UsersScreen> {
               return Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
                 child: Column(
-                  
                   children: [
                     SizedBox(height: 10.h),
                     Card(
                       elevation: 5,
-                      color: const Color.fromARGB(255, 255, 255, 255),
+                      color: const Color.fromARGB(255, 226, 239, 255),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.r),
                       ),
@@ -171,11 +169,7 @@ class _UsersScreenState extends State<UsersScreen> {
                           otherUserEmail,
                           style: TextStyle(fontSize: 14.sp),
                         ),
-                        trailing: Icon(
-                          Icons.send_rounded,
-                          color: kSecoundColor,
-                          size: 20.sp,
-                        ),
+                     
                         onTap: () {
                           String roomId = generateChatId(
                             myEmail!,
@@ -196,60 +190,7 @@ class _UsersScreenState extends State<UsersScreen> {
                       ),
                     ),
                     SizedBox(height: 10.h),
-                          Card(
-                      elevation: 5,
-                      color: const Color.fromARGB(255, 255, 255, 255),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.r),
-                      ),
-                      child: ListTile(
-                        leading: CircleAvatar(
-                          radius: 20.r,
-                          backgroundColor: kSecoundColor,
-                          child: Text(
-                            displayName[0].toUpperCase(),
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 16.sp,
-                            ),
-                          ),
-                        ),
-                        title: Text(
-                          displayName,
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: kSecoundColor,
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                        subtitle: Text(
-                          otherUserEmail,
-                          style: TextStyle(fontSize: 14.sp),
-                        ),
-                        trailing: Icon(
-                          Icons.send_rounded,
-                          color: kSecoundColor,
-                          size: 20.sp,
-                        ),
-                        onTap: () {
-                          String roomId = generateChatId(
-                            myEmail!,
-                            otherUserEmail,
-                          );
-
-                          Navigator.of(context).push(
-                            sharedAxisRoute(
-                              ChatScreen(),
-                              arguments: {
-                                'email': myEmail,
-                                'roomId': roomId,
-                                'otherUserName': displayName,
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                    ),
+                   
                   ],
                 ),
               );

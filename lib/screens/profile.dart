@@ -1,11 +1,12 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:chat_app/constant.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -17,9 +18,37 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   bool _isUploading = false;
 
+  static const String _cloudName = 'dtneftgss';
+  static const String _uploadPreset = 'upload_app_profile_image';  
+
+  Future<String?> _uploadToCloudinary(File imageFile) async {
+    final uri = Uri.parse(
+      'https://api.cloudinary.com/v1_1/$_cloudName/image/upload',
+    );
+
+    var request = http.MultipartRequest('POST', uri);
+    request.fields['upload_preset'] = _uploadPreset;
+    request.files.add(
+      await http.MultipartFile.fromPath('file', imageFile.path),
+    );
+
+    var response = await request.send();
+    var responseData = await response.stream.bytesToString();
+    var data = jsonDecode(responseData);
+
+    if (response.statusCode == 200) {
+      return data['secure_url'];
+    } else {
+      throw Exception('Cloudinary upload failed: ${data['error']['message']}');
+    }
+  }
+
   Future<void> _pickAndUploadImage() async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 70,     
+    );
 
     if (pickedFile == null) return;
 
@@ -31,19 +60,14 @@ class _ProfileState extends State<Profile> {
 
       File imageFile = File(pickedFile.path);
 
-      // Upload to Firebase Storage
-      final storageRef = FirebaseStorage.instance
-          .ref()
-          .child('user_profiles')
-          .child('${user.uid}.jpg');
+      final downloadUrl = await _uploadToCloudinary(imageFile);
 
-      await storageRef.putFile(imageFile);
-      final downloadUrl = await storageRef.getDownloadURL();
+      if (downloadUrl == null) throw Exception('Upload failed');
 
-      // Update Firestore user document
-      await FirebaseFirestore.instance.collection('users').doc(user.uid).update(
-        {'profileImage': downloadUrl},
-      );
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(user.uid)
+          .update({'profileImage': downloadUrl});
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -54,9 +78,9 @@ class _ProfileState extends State<Profile> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(SnackBar(content: Text('Failed to upload image: $e')));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to upload image: $e')),
+        );
       }
     } finally {
       if (mounted) setState(() => _isUploading = false);
@@ -75,15 +99,14 @@ class _ProfileState extends State<Profile> {
             .doc(user?.uid)
             .snapshots(),
         builder: (context, snapshot) {
-          String userName = "Loading...";
+          String userName = 'Loading...';
           String? profileImageUrl;
 
           if (snapshot.hasData && snapshot.data!.exists) {
             var data = snapshot.data!.data() as Map<String, dynamic>;
             userName = data['userName'] ?? 'No Name';
-            profileImageUrl = data.containsKey('profileImage')
-                ? data['profileImage']
-                : null;
+            profileImageUrl =
+                data.containsKey('profileImage') ? data['profileImage'] : null;
           }
 
           return ListView(
@@ -98,7 +121,7 @@ class _ProfileState extends State<Profile> {
                       radius: 60.r,
                       backgroundImage: profileImageUrl != null
                           ? NetworkImage(profileImageUrl)
-                          : const AssetImage('assets/images/mo.JPG')
+                          : const AssetImage('assets/images/user.png')
                                 as ImageProvider,
                     ),
                     CircleAvatar(
@@ -139,7 +162,7 @@ class _ProfileState extends State<Profile> {
               SizedBox(height: 5.h),
               Center(
                 child: Text(
-                  user?.email ?? "No Email",
+                  user?.email ?? 'No Email',
                   style: TextStyle(fontSize: 16.sp, color: Colors.black),
                 ),
               ),
@@ -147,10 +170,16 @@ class _ProfileState extends State<Profile> {
               _buildProfileOption(Icons.person, 'Edit Profile', () {}),
               _buildProfileOption(Icons.lock, 'Change Password', () {}),
               _buildProfileOption(Icons.settings, 'App Settings', () {}),
-              _buildProfileOption(Icons.logout, 'Logout', () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).pushReplacementNamed('loginPage');
-              }, isDestructive: true),
+              _buildProfileOption(
+                Icons.logout,
+                'Logout',
+                () async {
+                  await FirebaseAuth.instance.signOut();
+                  if (!mounted) return;
+                  Navigator.of(context).pushReplacementNamed('loginPage');
+                },
+                isDestructive: true,
+              ),
             ],
           );
         },
@@ -167,7 +196,9 @@ class _ProfileState extends State<Profile> {
     return Card(
       color: const Color(0xFFF0F0F0),
       margin: EdgeInsets.symmetric(vertical: 8.h),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.r)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.r),
+      ),
       child: ListTile(
         leading: Icon(
           icon,

@@ -81,11 +81,13 @@ class _VerificationScreenState extends State<VerificationScreen> {
         ),
       ),
 
-      body: SafeArea(
-        child: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(gradient: kPrimaryGradient),
+      body: Container(
+        height: double.infinity,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          gradient: kPrimaryGradient,
+        ),
+        child: SafeArea(
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -141,9 +143,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
                         ? SizedBox(
                             height: 56.h,
           
-                            child: Center(
-                              child: CustomLoadingIndicator(),
-                            ),
+                            child: Center(child: CustomLoadingIndicator()),
                           )
                         : CustomButton(
                             ontap: () {
@@ -162,7 +162,10 @@ class _VerificationScreenState extends State<VerificationScreen> {
           
                       text: 'RESEND LINK',
           
-                      textStyle: TextStyle(color: kSecoundColor, fontSize: 16.sp),
+                      textStyle: TextStyle(
+                        color: kSecoundColor,
+                        fontSize: 16.sp,
+                      ),
                     ),
           
                     SizedBox(height: 30.h),

@@ -121,6 +121,7 @@ class _SendRequestState extends State<SendRequest> {
                 ),
                 SizedBox(height: 20.h),
                 CustomTextFiled(
+                  keyBoardType: TextInputType.emailAddress,
                   hintText: 'Enter freind email',
                   onChanged: null,
                   obscureText: false,

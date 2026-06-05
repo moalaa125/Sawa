@@ -72,10 +72,10 @@ class _UsersScreenState extends State<UsersScreen> {
         surfaceTintColor: Colors.transparent,
         centerTitle: true,
         title: Text(
-          'SAWA Users',
+          'SAWA',
           style: TextStyle(
             color: kSecoundColor,
-            fontFamily: 'amaraa',
+            fontFamily: 'amara',
             fontSize: 25.sp,
           ),
         ),

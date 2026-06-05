@@ -16,10 +16,10 @@ void main() async {
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.light,
       systemNavigationBarColor: Colors.white,
       statusBarBrightness: Brightness.light,
-      systemNavigationBarIconBrightness: Brightness.dark,
+      systemNavigationBarIconBrightness: Brightness.light,
     ),
   );
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,8 +42,7 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          routes: {
+          debugShowCheckedModeBanner: fals          routes: {
             'loginPage': (context) => LoginPage(),
             'registerPage': (context) => RegisterPage(),
             'verificationPage': (context) => VerificationScreen(),

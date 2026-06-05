@@ -42,7 +42,8 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
-          debugShowCheckedModeBanner: fals          routes: {
+          debugShowCheckedModeBanner: false,
+          routes: {
             'loginPage': (context) => LoginPage(),
             'registerPage': (context) => RegisterPage(),
             'verificationPage': (context) => VerificationScreen(),
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
           },
           title: 'Flutter Demo',
           theme: ThemeData(
+            brightness: Brightness.light,
             colorScheme: ColorScheme.fromSeed(seedColor: kSecoundColor),
           ),
           initialRoute: isLoggedIn ? 'usersScreen' : 'loginPage',

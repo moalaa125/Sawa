@@ -133,13 +133,13 @@ class _RegisterPageState extends State<RegisterPage> {
                                 'Create account',
                                 style: TextStyle(
                                   color: kSecoundColor,
-                                  fontSize: 30.sp,
+                                  fontSize: 28.sp,
                                   fontFamily: 'amara',
                                 ),
                               ),
                               Text(
                                 'Enter your details to start your journy with us.',
-                              style: TextStyle(color: kSecoundColor.withOpacity(0.8), fontSize: 16.sp),
+                              style: TextStyle(color: kSecoundColor.withValues(alpha:0.8), fontSize: 12.sp),
                               ),
                             ],
                           ),
@@ -152,11 +152,10 @@ class _RegisterPageState extends State<RegisterPage> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 3.h),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
-                        'User name ',
+                        'User name',
                       style: TextStyle(color: kSecoundColor, fontSize: 20.sp),
                       ),
                     ),
@@ -176,7 +175,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       obscureText: false,
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 8.h),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
@@ -201,7 +200,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       },
                       obscureText: false,
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 8.h),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
@@ -226,7 +225,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       hintText: 'Password',
                       obscureText: true,
                     ),
-                    SizedBox(height: 10.h),
+                    SizedBox(height: 8.h),
                     Padding(
                       padding: const EdgeInsets.only(left: 15),
                       child: Text(
@@ -255,7 +254,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                       obscureText: true,
                     ),
-                SizedBox(height: 30.h),
+                SizedBox(height: 28.h),
                     Center(
                       child: isLoading
                       ? CustomLoadingIndicator()

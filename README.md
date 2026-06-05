@@ -24,8 +24,11 @@
 - 👤 **Username Registration** with uniqueness validation
 - 💬 **Private Real-time Chat** between users via Firestore
 - 👥 **Users Screen** to browse and start conversations
-- 🔀 **Smooth Screen Transitions** with SharedAxis animations
-- 🚪 **Logout** from the users screen
+- � **Bottom Navigation Bar** for seamless navigation
+- 🤝 **Friend Requests System** (Search users, Send, Accept/Reject requests)
+- 👤 **User Profile Management** (Avatar, Edit Profile, Change Password, Settings)
+- �� **Smooth Screen Transitions** with SharedAxis animations
+- �🚪 **Logout** from the users screen
 - 💾 **Auto Login** — stays logged in after closing the app
 - ⚡ **Loading indicators** with SpinKit animations
 - 📱 **Responsive UI** with flutter_screenutil
@@ -141,27 +144,8 @@ dependencies:
   animations: latest
 ```
 
----
 
-## 🔒 Security Note
 
-> ⚠️ Never commit your `firebase_options.dart` to a public repository.
-> Add it to `.gitignore`:
-> ```
-> lib/firebase_options.dart
-> ```
-
----
-
-## 🐛 TODO
-
-- [ ] Add message timestamps inside chat bubbles
-- [ ] Add typing indicator
-- [ ] Add user profile & avatar
-- [ ] Add image sharing in chat
-- [ ] Add friends system with username search
-
----
 
 ## 👨‍💻 Author
 

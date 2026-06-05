@@ -122,7 +122,7 @@ class _UsersScreenState extends State<UsersScreen> {
                   : otherUserEmail.split('@')[0];
 
               return Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 2.h),
                 child: Column(
                   children: [
                     SizedBox(height: 10.h),
@@ -176,7 +176,6 @@ class _UsersScreenState extends State<UsersScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 10.h),
                   ],
                 ),
               );

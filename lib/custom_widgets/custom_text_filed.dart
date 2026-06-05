@@ -33,6 +33,7 @@ class CustomTextFiled extends StatelessWidget {
         children: [
      
           TextFormField(
+            keyboardAppearance: Brightness.light,
             controller: controller,
             keyboardType: keyBoardType,
             validator: validator,

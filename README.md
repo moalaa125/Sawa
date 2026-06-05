@@ -10,6 +10,10 @@
 |-------|----------|------|--------------|----------------|
 | ![Login](screenshots/login.png) | ![Register](screenshots/register.png) | ![Chat](screenshots/chat.png) | ![Verification](screenshots/verification.png) | ![Reset Password](screenshots/reset_password.png) |
 
+| Users | Send Request | Requests | Profile |
+|-------|--------------|----------|---------|
+| ![Users](screenshots/users.png) | ![Send Request](screenshots/send_request.png) | ![Requests](screenshots/requests.png) | ![Profile](screenshots/profile.png) |
+
 ---
 
 ## ✨ Features

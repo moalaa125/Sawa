@@ -62,8 +62,9 @@ class _SendRequestState extends State<SendRequest> {
       final String targetUserId = targetUserDoc.id;
 
       if (targetUserId == currentUser.uid) {
-        if (mounted)
+        if (mounted) {
           showSnackBar(context, 'you cant send a friend request to yourself');
+        }
         setState(() => _isLoading = false);
         return;
       }
@@ -86,6 +87,7 @@ class _SendRequestState extends State<SendRequest> {
     }
   }
 
+  @override
   void dispose() {
     _emailController.dispose();
     super.dispose();

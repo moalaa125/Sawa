@@ -67,6 +67,7 @@ class _UsersScreenState extends State<UsersScreen> {
         ),
       ),
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: kAppBarColor,
         elevation: 1,
         surfaceTintColor: Colors.transparent,
